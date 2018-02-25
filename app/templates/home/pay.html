@@ -1,0 +1,11 @@
+{% extends 'navbar.html' %}
+{% block title %}公告{% endblock %}
+
+{%- block page_content %}
+
+<h2>选择支付方式 : </h2>
+<img src="{{ url_for('static', filename='pic/pay/alipay.jpg') }}" width=400px height=400px />
+<img src="{{ url_for('static', filename='pic/pay/weixinpay.jpg') }}" width=400px height=400px />
+<img src="{{ url_for('static', filename='pic/pay/weixinprod.png') }}" width=400px height=400px />
+
+{% endblock %}

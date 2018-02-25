@@ -1,0 +1,111 @@
+{%- extends 'home/user.html' %}
+{%- block title %} 修改密码 {% endblock %}
+
+{%- block content %}
+
+<section class="content-header">
+    <h1>个人信息管理</h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 个人信息</a></li>
+        <li class="active">修改</li>
+    </ol>
+</section>
+<section class="content" id="showcontent">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">用户详情</h3>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    <form action="{{ url_for('home.change_info') }}" method="post">
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr>
+                                <td class="td_bd">用户名：</td>
+                                <td><b>{{ current_user.username }} </b> (用户名无法修改)</td>
+                            </tr>
+                            <tr>
+                                <td class="td_bd">真实姓名：</td>
+                                <td>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span
+                                                class="glyphicon glyphicon-user"></span></span>
+                                        <input name="realname" class="form-control" value="{{ current_user.realname }}"
+                                               maxlength="20" type="text">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td_bd">邮箱：</td>
+                                <td>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span
+                                                class="glyphicon glyphicon-envelope"></span></span>
+                                        <input type="text" name="email" class="form-control"
+                                               value="{{ current_user.email }}"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td_bd">手机：</td>
+                                <td>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
+                                        <input type="text" name="tel" class="form-control"
+                                               value="{{ current_user.tel }}"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td_bd">所在地：</td>
+                                <td>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span
+                                                class="glyphicon glyphicon-home"></span></span>
+                                        <input type="text" name="location" class="form-control"
+                                               value="{{ current_user.location }}"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td_bd">性别：</td>
+                                <td>
+                                    {{ current_user.gender }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td_bd">身份证号：</td>
+                                <td>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span
+                                                class="glyphicon glyphicon-info-sign"></span></span>
+                                        <input type="text" name="idcard" class="form-control"
+                                               value="{{ current_user.idCard }}"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td_bd">银行卡号：</td>
+                                <td>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span
+                                                class="glyphicon glyphicon-btc"></span></span>
+                                        <input type="text" name="bankcard" class="form-control"
+                                               value="{{ current_user.bindBankCard }}"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                            <center>
+                            <button type="submit" class="btn btn-primary">确认修改</button>
+                            </center><br>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

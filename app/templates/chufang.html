@@ -1,0 +1,31 @@
+{% extends 'navbar.html' %}
+
+{% block title %} ChuFang drug {% endblock %}
+{% block page_content %}
+
+
+{% for drug in drugs %}
+<div class="col-md-3">
+    <div class="movielist text-center">
+        <!--<img data-original="holder.js/262x166"
+                 class="img-responsive lazy center-block" alt="">-->
+        <img class="img-responsive center-block" alt=""
+             src="{{ url_for('static', filename='pic/drug/'+drug.pic_name) }}" style="height:190px;width:190px;">
+        <div class="text-left" style="margin-left:auto;margin-right:auto;width:210px;">
+            <span style="color:#999;font-style: italic;">{{ drug.name }} </span>&nbsp&nbsp&nbsp
+            <b>价格: {{ drug.price }} /RMB</b>
+            <div>
+                <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
+                <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
+                <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
+                <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
+                <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
+            </div>
+        </div>
+        <a href="{{ url_for('home.add', commodity=drug.id) }}" class="btn btn-primary" target="_blank" role="button"><span
+                class="glyphicon glyphicon-shopping-cart"></span> 添加到购物车</a>
+    </div><br>
+</div>
+{% endfor %}
+<br><br><br><br><br><br>
+{% endblock %}

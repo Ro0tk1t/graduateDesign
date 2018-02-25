@@ -1,0 +1,114 @@
+{% extends 'navbar.html' %}
+{% block title %}Index{% endblock %}
+{%- block styles %}
+<link href="{{bootstrap_find_resource('css/bootstrap.css', cdn='bootstrap')}}" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/circlepic.css') }}">
+{% endblock %}
+
+{% block page_content %}
+<!--轮播图 开始 -->
+<div class="main_banner">
+	<div class="main_banner_wrap">
+		<canvas id="myCanvas" width="150" height="150"></canvas>
+		<div class="main_banner_box" id="m_box">
+			<a href="javascript:void(0)" class="banner_btn js_pre">
+				<span class="banner_btn_arrow"><i></i></span>
+			</a>
+			<a href="javascript:void(0)" class="banner_btn btn_next js_next">
+				<span class="banner_btn_arrow"><i></i></span>
+			</a>
+			<ul>
+				<li id="imgCard0">
+					<a href=""><span style="opacity:0;"></span></a>
+					<img src="{{ url_for('static', filename='pic/circle_pics/big0020150102211033.jpg') }}" alt="">
+					<p style="bottom:0">周杰伦粉丝版MV</p>
+				</li>
+				<li id="imgCard1">
+					<a href=""><span style="opacity:0.4;"></span></a>
+					<img src="{{ url_for('static', filename='pic/circle_pics/big0120150101183428.jpg') }}" alt="">
+					<p>乐侃有声节目第二期</p>
+				</li>
+				<li id="imgCard2">
+					<a href=""><span style="opacity:0.4;" ></span></a>
+					<img src="{{ url_for('static', filename='pic/circle_pics/big0320150101183351.jpg') }}" alt="">
+					<p>乐见大牌：”荣“耀之声，”维“我独尊</p>
+				</li>
+				<li id="imgCard3">
+					<a href=""><span style="opacity:0.4;"></span></a>
+					<img src="{{ url_for('static', filename='pic/circle_pics/big0420150101224343.jpg') }}" alt="">
+					<p>王力宏四年心血结晶</p>
+				</li>
+				<li id="imgCard4">
+					<a href=""><span style="opacity:0.4;"></span></a>
+					<img src="{{ url_for('static', filename='pic/circle_pics/big0720150102210934.jpg') }}" alt="">
+					<p>MV精选：《武媚》女神团美艳大比拼</p>
+				</li>
+			</ul>
+			<!--火狐倒影图层-->
+			<p id="rflt"></p>
+			<!--火狐倒影图层-->
+		</div>
+		<!--序列号按钮-->
+		<div class="btn_list">
+			<span class="curr"></span><span></span><span></span><span></span><span></span>
+		</div>
+	</div>
+
+</div>
+<!--轮播图 结束 -->
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Panel heading</div>
+
+  <!-- Table -->
+  <table class="table">
+        <thead>
+    <tr>
+        <th># ID</th>
+        <th>require</th>
+        <th>status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>001</td>
+        <td>本系统要有一般的统计功能，</td>
+        <td>done</td>
+    </tr>
+    <tr>
+        <td>002</td>
+        <td>实时提示患者消费是否超标，</td>
+        <td>ing</td>
+    </tr>
+    <tr>
+        <td>003</td>
+        <td>是否符合住院标准，</td>
+        <td>ing</td>
+    </tr>
+    <tr>
+        <td>004</td>
+        <td>是否存在重复收费、多收费、乱收费的情况，</td>
+        <td>ing</td>
+    </tr>
+    <tr>
+        <td>005</td>
+        <td>显示患者自费金额的比例，</td>
+        <td>ing</td>
+    </tr>
+    <tr>
+        <td>006</td>
+        <td>统筹基金的超支或结余的额度及比例等。</td>
+        <td>ing</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{bootstrap_find_resource('jquery.js', cdn='jquery')}}"></script>
+    <script src="{{bootstrap_find_resource('js/bootstrap.js', cdn='bootstrap')}}"></script>
+    <script src="{{ url_for('static',filename='js/circlepic.js') }}"></script>
+{%- endblock scripts %}

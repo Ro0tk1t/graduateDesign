@@ -1,0 +1,22 @@
+{% extends 'navbar.html' %}
+{% block title %}公告{% endblock %}
+
+{%- block page_content %}
+<h3>there has {{ notes|length }} notice</h3>
+
+<div class="panel panel-info">
+    <div class="panel-heading">公告列表</div>
+    <div class="panel-body">
+        {% for x in notes %}
+        <div class="list-group">
+            <a href="#" class="list-group-item active">
+                <h4 class="list-group-item-heading">公告: {{ x.title }}</h4>
+                <p class="list-group-item-text">{{ x.text }}</p>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}
