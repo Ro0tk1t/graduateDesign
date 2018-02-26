@@ -79,6 +79,7 @@ class Wallet(mongo.Document):
     surplus = mongo.FloatField(default=0.0)
     score = mongo.IntField(default=0)
     tongchoujijin = mongo.FloatField(default=0.0)
+    orders = mongo.ListField(mongo.ReferenceField('Orders'))
 
     def __repr__(self):
         return '<Wallet %r>' % self.id
@@ -96,15 +97,15 @@ class Orders(mongo.Document):
     opareteUser = mongo.StringField(default='President')
     useTongchou = mongo.FloatField(default=0.0)
     payWay = mongo.StringField(default='余额')
-    buyDetail = mongo.ListField(mongo.ReferenceField('Commodity'))
+    buyDetail = mongo.DictField()
     #buyDetail = db.relationship('Commodity', secondary=Commodities, backref=db.backref('orders', lazy='dynamic'))
     isPayed = mongo.BooleanField(default=False)
     getScore = mongo.IntField(default=0)
-    paySum = mongo.IntField()
+    paySum = mongo.FloatField()
     wallet_id = mongo.ReferenceField(Wallet)
 
     def __repr__(self):
-        return "<Orders %r>" % self._id
+        return "<Orders %r>" % self.id
 
 class Commodity(mongo.Document):
     ''' 药品 '''

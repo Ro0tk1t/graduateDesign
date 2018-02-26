@@ -5,6 +5,8 @@ from app.extensions import current_user, login_required
 from app.models import User, Wallet, Orders, Commodity, ShoppingCar
 from .forms import InfoForm
 from flask_admin.contrib.mongoengine.filters import ObjectId
+from collections import Counter
+from functools import reduce
 
 
 @home.route("/")
@@ -66,6 +68,7 @@ def money():
 @home.route('/add/<commodity>', methods=['POST', 'GET'])
 @login_required
 def add(commodity):
+    ''' 添加到购物车 '''
     commodity_objid = ObjectId(commodity)
     selected = Commodity.objects(id=commodity_objid).first()
     print(commodity_objid)
@@ -74,9 +77,26 @@ def add(commodity):
     return render_template('home/pay.html')
 
 
-@home.route('/pay', methods=['POST', 'GET'])
+@home.route('/pay/<goods>', methods=['POST', 'GET'])
 @login_required
-def pay():
+def pay(goods):
+    ''' jinja2只能返回str,无法返回对象或列表等数据结构 '''
+    drug = goods.split(',')
+    drugs = [Commodity.objects(id=ObjectId(x.strip())).first() for x in drug]
+    need_pay = sum([x.price for x in drugs])
+    detail = Counter(drug)
+    print(detail)
+    user = User.objects(id=current_user.id).first()
+    wallet = current_user.wallet_id
+    print(drugs)
+    order = Orders(user_id=user,
+                   buyDetail=detail,
+                   wallet_id=wallet)
+    order.save()
+    '''
+    检查是否已经支付
+    '''
+    current_user.shoppingcar.update(detail={})
     return render_template('home/pay.html')
 
 
@@ -97,11 +117,13 @@ def delete(commodities):
     pass
 
 
-@home.route('/orders')
+@home.route('/order')
 @login_required
-def orders():
-    orders
-    return render_template('home/orders.html')
+def order():
+    wallet = current_user.wallet_id
+    orders = wallet.orders
+    print(orders)
+    return render_template('home/order.html', orders=orders)
 
 
 @home.route('/pwd', methods=['POST', 'GET'])

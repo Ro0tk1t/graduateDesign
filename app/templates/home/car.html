@@ -31,7 +31,7 @@
                                 <td>
                                     <input type="checkbox" value="None" id="checkbox1" name="remember"/>
                                 </td>
-                                <td class="td_bd">{{ good.id }}：</td>
+                                <td class="td_bd">{{ good.id }}</td>
                                 <td>{{ good.price }}</td>
                                 <td>1</td>
                             </tr>
@@ -43,10 +43,11 @@
             </div>
         </div>
         <h3>总价: {{ goods|sum(attribute='price') }}</h3>
-        <a href="{{ url_for('home.pay') }}" class="btn btn-primary" target="_blank" role="button"><span
-                class="glyphicon glyphicon-ok"></span> 一键购买</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-        <a href="#{#{ url_for('home.delete') }#}" class="btn btn-danger" role="button"><span
-                class="glyphicon glyphicon-trash"></span> 删除选中药品</a>
+        {% set objs = goods|map(attribute='id')|join(',') %}
+        <a href="{{ url_for('home.pay', goods=objs) }}" class="btn btn-primary" target="_blank" role="button">
+            <span class="glyphicon glyphicon-ok"></span> 一键购买</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        <a href="#{#{ url_for('home.delete') }#}" class="btn btn-danger" role="button">
+            <span class="glyphicon glyphicon-trash"></span> 删除选中药品</a>
     </form>
 </section>
 {% endblock %}
