@@ -2,7 +2,7 @@
 from . import home
 from flask import abort, redirect, url_for, render_template, request
 from app.extensions import current_user, login_required
-from app.models import User, Orders, Commodity
+from app.models import User, Orders, Commodity, DiagnosisLog
 from .forms import InfoForm
 from flask_admin.contrib.mongoengine.filters import ObjectId
 from collections import Counter
@@ -27,6 +27,7 @@ def index(user=0):
 
 
 @home.route('/<user>/info', methods=['POST', 'GET'])
+@login_required
 def info(user):
     return render_template('home/info.html', user=user)
 
@@ -122,7 +123,6 @@ def delete(commodities):
 def order():
     wallet = current_user.wallet_id
     orders = wallet.orders
-    print(orders)
     return render_template('home/order.html', orders=orders)
 
 
@@ -132,14 +132,29 @@ def pwd():
 
 
 @home.route('/tongchoujijin')
+@login_required
 def tongchoujijin():
     wallet = current_user.wallet_id
     jijin = wallet.tongchoujijin
     return render_template('home/tongchoujijin.html', jijin=jijin)
 
+
 @home.route('/used_jijin')
+@login_required
 def usejijin():
     wallet = current_user.wallet_id
     jijin_order = Orders.objects(wallet_id=wallet, useTongchou__gt=0)
-    print(jijin_order)
     return render_template('home/jijin_order.html', jijin_order=jijin_order)
+
+
+@home.route('/diagnosis')
+@login_required
+def diagnosis():
+    diags = DiagnosisLog.objects(user_id=ObjectId(current_user.id))
+    return render_template('home/diagnosis.html', diags=diags)
+
+
+@home.route('/date_diag')
+@login_required
+def date_diag():
+    return render_template('home/date_diag.html')

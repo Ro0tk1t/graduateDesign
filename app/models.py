@@ -113,6 +113,7 @@ class Commodity(mongo.Document):
     pic_name = mongo.StringField()
     price = mongo.FloatField(required=True)
     explain = mongo.StringField()
+    tags = mongo.ListField(mongo.ReferenceField('Tag'))
 
     def __repr__(self):
         return '<Commodity %r>' % self.name
@@ -146,7 +147,7 @@ class ScoreOrder(mongo.Document):
 class Tag(mongo.Document):
     ''' 商品标签 '''
     title = mongo.StringField(unique=True)
-    drugs = mongo.ListField(mongo.StringField())
+    drugs = mongo.ListField(mongo.ReferenceField('Commodity'))
     #drugs = db.relationship('Commodity', secondary=Tags, backref=db.backref('tag', lazy='dynamic'))
 
     def __repr__(self):
@@ -168,6 +169,16 @@ class Notice(mongo.Document):
     title = mongo.StringField()
     text = mongo.StringField()
     addDate = mongo.DateTimeField(default=datetime.now)
+
+
+class DiagnosisLog(mongo.Document):
+    ''' 诊断记录 '''
+    user_id = mongo.ReferenceField('User')
+    diagnosis_date = mongo.DateTimeField(default=datetime.now)
+    doctor = mongo.StringField()
+    diagnosis_result = mongo.StringField()
+    need_hospitalization = mongo.BooleanField()
+
 
 # class News(db.Model):
 #    auth = db.relationship("User", backref='news')

@@ -11,7 +11,7 @@ from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.mongoengine import ModelView
 from flask_admin.contrib.mongoengine.view import BaseModelView
 from flask_admin.contrib.mongoengine.filters import BaseMongoEngineFilter
-from app.models import mongo, db, User, Orders, Commodity, Tag, Notice, Wallet, Security, ScoreGood, ScoreOrder, ShoppingCar
+from app.models import mongo, db, User, Orders, Commodity, Tag, Notice, Wallet, Security, ScoreGood, ScoreOrder, ShoppingCar,DiagnosisLog
 from app.forms import LoginForm, SearchForm, RegistForm
 from app import config
 from .admin import views as admin_views
@@ -30,7 +30,7 @@ app.config.from_object(config.Config)
 
 
 admin = Admin(app, name=u'后台')
-model_list = [User, Orders, Commodity, Tag, Notice, Wallet, Security, ScoreGood, ScoreOrder, ShoppingCar]
+model_list = [User, Orders, Commodity, Tag, Notice, Wallet, Security, ScoreGood, ScoreOrder, ShoppingCar, DiagnosisLog]
 for x in model_list:
     admin.add_view(admin_views.CRUD(x, db.session, category=x.__name__))
 
