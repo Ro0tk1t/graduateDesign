@@ -82,12 +82,6 @@ def login():
         pwd = request.form.get('password')
         user = User.objects(username=name, password=pwd).first()
         if not user:
-            text = '''
-            <div class="alert alert-warning alert-dismissible" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <strong>Warning!</strong> Better check yourself, you're not looking too good.
-</div>
-            '''
             flash("账户或密码错误！")
             return render_template('login.html', form=form, status=1)
         ### type(ObjectId) != type(str)

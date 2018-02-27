@@ -2,7 +2,7 @@
 from . import home
 from flask import abort, redirect, url_for, render_template, request
 from app.extensions import current_user, login_required
-from app.models import User, Wallet, Orders, Commodity, ShoppingCar
+from app.models import User, Orders, Commodity
 from .forms import InfoForm
 from flask_admin.contrib.mongoengine.filters import ObjectId
 from collections import Counter
@@ -131,6 +131,15 @@ def pwd():
     return render_template('home/pwd.html')
 
 
-@home.route('/test1', methods=['POST', 'GET'])
-def test1():
-    return render_template('home/user.html')
+@home.route('/tongchoujijin')
+def tongchoujijin():
+    wallet = current_user.wallet_id
+    jijin = wallet.tongchoujijin
+    return render_template('home/tongchoujijin.html', jijin=jijin)
+
+@home.route('/used_jijin')
+def usejijin():
+    wallet = current_user.wallet_id
+    jijin_order = Orders.objects(wallet_id=wallet, useTongchou__gt=0)
+    print(jijin_order)
+    return render_template('home/jijin_order.html', jijin_order=jijin_order)
