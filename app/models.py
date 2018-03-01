@@ -175,10 +175,17 @@ class DiagnosisLog(mongo.Document):
     ''' 诊断记录 '''
     user_id = mongo.ReferenceField('User')
     diagnosis_date = mongo.DateTimeField(default=datetime.now)
-    doctor = mongo.StringField()
-    diagnosis_result = mongo.StringField()
+    doctor = mongo.StringField(default='admin')
+    diagnosis_result = mongo.StringField(default='healthy')
     need_hospitalization = mongo.BooleanField()
 
+
+class DateDiag(mongo.Document):
+    ''' 预约记录 '''
+    user_id = mongo.ReferenceField('User')
+    date = mongo.DateTimeField()
+    doc = mongo.ReferenceField('User')
+    about_me = mongo.StringField()
 
 # class News(db.Model):
 #    auth = db.relationship("User", backref='news')

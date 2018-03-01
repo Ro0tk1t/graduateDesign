@@ -1,9 +1,9 @@
 # coding:utf8
 from . import home
-from flask import abort, redirect, url_for, render_template, request
+from flask import abort, redirect, url_for, render_template, request, flash
 from app.extensions import current_user, login_required
-from app.models import User, Orders, Commodity, DiagnosisLog
-from .forms import InfoForm
+from app.models import User, Orders, Commodity, DiagnosisLog, DateDiag
+from .forms import InfoForm, DateDiagnosis
 from flask_admin.contrib.mongoengine.filters import ObjectId
 from collections import Counter
 from functools import reduce
@@ -154,7 +154,18 @@ def diagnosis():
     return render_template('home/diagnosis.html', diags=diags)
 
 
-@home.route('/date_diag')
+@home.route('/date_diag', methods=['POST', 'GET'])
 @login_required
 def date_diag():
-    return render_template('home/date_diag.html')
+    form = DateDiagnosis()
+    if request.method == 'POST':
+        date = form.date.data
+        doctor = form.doctor.data
+        about = form.about.data
+        add = DateDiag(doc=User.objects(id=ObjectId(doctor)).first(),
+                       user_id=User.objects(id=ObjectId(current_user.id)).first(),
+                       about_me=about)
+        add.save()
+        flash('预约成功!  ')
+        return redirect('/home')
+    return render_template('home/date_diag.html', form=form)
