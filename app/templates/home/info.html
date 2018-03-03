@@ -57,7 +57,11 @@
                         <tr>
                             <td class="td_bd">性别：</td>
                             <td>
-                                {{ current_user.gender }}
+                                {% if current_user.gender %}
+                                <h5>男</h5>
+                                {% else %}
+                                <h5>女</h5>
+                                {% endif %}
                             </td>
                         </tr>
                         </tbody>

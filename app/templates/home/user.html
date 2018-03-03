@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='fonts/ionicons/css/ionicons.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='home/dist/css/AdminLTE.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='home/dist/css/skins/_all-skins.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home/plugins/datepicker/datepicker3.css') }}">
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename='home/plugins/datepicker/datepicker3.css') }}">
     <style>
         *{
             font-family:"Microsoft YaHei";
@@ -20,6 +21,7 @@
             vertical-align:middle;
             text-align:center;
         }
+
     </style>
     {% block css %} {% endblock %}
 </head>
@@ -27,8 +29,10 @@
 <div class="wrapper">
     <header class="main-header">
         <a href="{{ url_for('home.index') }}" class="logo">
-            <span class="logo-mini"><img src="{{ url_for('static', filename='pic/logo/doct.jpg') }}" style="height:40px;width:40px;">个人中心</span>
-            <span class="logo-lg"><img src="{{ url_for('static', filename='pic/logo/doct.jpg') }}" style="height:40px;width:40px;">   个 人 中 心 </span>
+            <span class="logo-mini"><img src="{{ url_for('static', filename='pic/logo/doct.jpg') }}"
+                                         style="height:40px;width:40px;">个人中心</span>
+            <span class="logo-lg"><img src="{{ url_for('static', filename='pic/logo/doct.jpg') }}"
+                                       style="height:40px;width:40px;">   个 人 中 心 </span>
         </a>
         <nav class="navbar navbar-static-top">
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
@@ -91,9 +95,23 @@
         </section>
     </aside>
     <div class="content-wrapper">
-    <!--内容-->
-        {% block content %} {% endblock %}
-    <!--内容-->
+        <!--内容-->
+        {% block content %}
+        <center>
+        <div class="jumbotron">
+            <h1>欢迎来到个人中心 !</h1><br>
+            <div class="container">
+            <p>您可以在这里查看修改个人资料 查看订单 钱包 统筹基金 积分 就诊记录等操作</p>
+                <p>以及预约专家就诊等</p><br><br><br>
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+            </div>
+        </div>
+            {% for msg in get_flashed_messages() %}
+            <b style="font-size:40px">{{ msg }}</b>
+            {% endfor %}
+        </center>
+        {% endblock %}
+        <!--内容-->
     </div>
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
@@ -111,7 +129,8 @@
 <script src="{{ url_for('static', filename='home/dist/js/demo.js') }}"></script>
 <script src="//cdn.bootcss.com/holder/2.9.4/holder.min.js"></script>
 <script src="{{ url_for('static', filename='home/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
-<script src="{{ url_for('static', filename='home/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js') }}" charset="UTF-8"></script>
+<script src="{{ url_for('static', filename='home/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js') }}"
+        charset="UTF-8"></script>
 {% block js %} {% endblock %}
 
 </body>

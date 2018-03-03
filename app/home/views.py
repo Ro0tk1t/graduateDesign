@@ -3,7 +3,7 @@ from . import home
 from flask import abort, redirect, url_for, render_template, request, flash
 from app.extensions import current_user, login_required
 from app.models import User, Orders, Commodity, DiagnosisLog, DateDiag
-from .forms import InfoForm, DateDiagnosis
+from .forms import InfoForm, DateDiagnosis, PwdForm
 from flask_admin.contrib.mongoengine.filters import ObjectId
 from collections import Counter
 from functools import reduce
@@ -43,18 +43,21 @@ def change_info():
         location = form.location.data
         idcard = form.idcard.data
         bankcard = form.bankcard.data
+        gender = form.gender.data
+        gender = gender == 'men'
         user = User.objects(username=current_user.username).first()
-        print(user)
+        print(user.__repr__())
         user.update(
             realname=realname,
             email=email,
             tel=tel,
             location=location,
             idCard=idcard,
-            bindBankCard=bankcard
+            bindBankCard=bankcard,
+            gender=bool(int(gender))
         )
-        # flash('afdfd')
-        return redirect('/home/{}/info'.format(current_user))
+        flash('个人资料修改成功 !')
+        return redirect('/home'.format(current_user))
     else:
         return render_template('home/edit_info.html')
 
@@ -128,7 +131,17 @@ def order():
 
 @home.route('/pwd', methods=['POST', 'GET'])
 def pwd():
-    return render_template('home/pwd.html')
+    form = PwdForm()
+    if request.method == 'POST':
+        old_pwd = form.old_pwd.data
+        new_pwd = form.new_pwd.data
+        user = User.objects(id=ObjectId(current_user.id)).first()
+        print(user.password)
+        if user.password == old_pwd:
+            user.update(password=new_pwd)
+            flash('密码修改成功 ！')
+            return redirect('/home')
+    return render_template('home/pwd.html', status=1)
 
 
 @home.route('/tongchoujijin')

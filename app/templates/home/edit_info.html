@@ -1,6 +1,9 @@
 {%- extends 'home/user.html' %}
 {%- block title %} 修改密码 {% endblock %}
 
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-datetimepicker/bootstrap-select.min.css') }}">
+{% endblock %}
 {%- block content %}
 
 <section class="content-header">
@@ -71,7 +74,15 @@
                             <tr>
                                 <td class="td_bd">性别：</td>
                                 <td>
-                                    {{ current_user.gender }}
+                                    <select class="selectpicker" name="gender" id="gender">
+                                        {% if current_user.gender %}
+                                        <option value="men">男</option>
+                                        <option value="wo">女</option>
+                                        {% else %}
+                                        <option value="wo">女</option>
+                                        <option value="men">男</option>
+                                        {% endif %}
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
@@ -98,9 +109,10 @@
                             </tr>
                             </tbody>
                         </table>
-                            <center>
+                        <center>
                             <button type="submit" class="btn btn-primary">确认修改</button>
-                            </center><br>
+                        </center>
+                        <br>
                     </form>
                 </div>
             </div>
@@ -108,4 +120,14 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='bootstrap-datetimepicker/bootstrap-select.min.js') }}"/>
+<script>
+  $('.selectpicker').selectpicker({
+  style: 'btn-info',
+  size: 1
+});
+</script>
 {% endblock %}

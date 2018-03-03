@@ -12,7 +12,7 @@ class InfoForm(Form):
     bankcard = StringField('bankcard', [DataRequired(), Length(max=100)])
     location = StringField('location', [DataRequired(), Length(max=100)])
     tel = StringField('Phone', [DataRequired(), Length(max=100)])
-    gander = BooleanField('gender')
+    gender = StringField('gender')
 
 
 class DateDiagnosis(Form):
@@ -24,3 +24,9 @@ class DateDiagnosis(Form):
     date = DateTimeField("date")
     doctor = SelectField('预约医生', choices=li)
     about = TextAreaField('病情描述')
+
+
+class PwdForm(Form):
+    old_pwd = StringField('old_pwd', [DataRequired(), Length(max=100)])
+    new_pwd = StringField('new_pwd', [DataRequired(), Length(max=100)])
+    anwser = StringField('ans', [DataRequired(), Length(max=100)])
