@@ -2,6 +2,11 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {%- block title %} 修改密码 {% endblock %}
 
+{% block css %}
+<link href="{{ url_for('static',filename='bootstrap-datetimepicker/bootstrap-datetimepicker.min.css') }}"
+      rel="stylesheet">
+{% endblock %}
+
 {%- block content %}
 
 <section class="content-header">
@@ -25,7 +30,19 @@
                             <tbody>
                             <tr>
                                 <td class="td_bd">预约时间：</td>
-                                <td>{{ wtf.form_field(form.date)}}</td>
+                                <td>
+                                    <div class="input-group bootstrap-timepicker timepicker">
+                                        <input id="timepicker"
+                                               class="form-control"
+                                               data-provide="timepicker"
+                                               data-template="modal"
+                                               data-minute-step="1"
+                                               data-modal-backdrop="true"
+                                               data-date-format="yyyy-mm-dd hh:ii:ss"
+                                               name="date"
+                                               type="text"/>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="td_bd">预约医生：</td>
@@ -54,5 +71,10 @@
         </div>
     </div>
 </section>
+{% endblock %}
 
+{% block js %}
+<script src="{{ url_for('static', filename='bootstrap-datetimepicker/datetimepicker.js') }}"></script>
+<script src="{{ url_for('static',filename='js/datetime.js') }}">
+</script>
 {% endblock %}

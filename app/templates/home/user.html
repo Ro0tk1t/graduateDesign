@@ -92,9 +92,6 @@
     </aside>
     <div class="content-wrapper">
     <!--内容-->
-        {% for message in get_flashed_messages() %}
-         {{ message }}
-        {% endfor %}
         {% block content %} {% endblock %}
     <!--内容-->
     </div>

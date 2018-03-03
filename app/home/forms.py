@@ -21,6 +21,6 @@ class DateDiagnosis(Form):
     for x in docs:
         li.append((x.id, x.realname))
     print(li)
-    date = DateTimeField("预约时间", format="%Y-%m-%d %H:%M:%S")
+    date = DateTimeField("date")
     doctor = SelectField('预约医生', choices=li)
     about = TextAreaField('病情描述')

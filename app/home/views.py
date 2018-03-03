@@ -164,8 +164,10 @@ def date_diag():
         about = form.about.data
         add = DateDiag(doc=User.objects(id=ObjectId(doctor)).first(),
                        user_id=User.objects(id=ObjectId(current_user.id)).first(),
+                       date=date,
                        about_me=about)
         add.save()
+        print(date)
         flash('预约成功!  ')
         return redirect('/home')
     return render_template('home/date_diag.html', form=form)
