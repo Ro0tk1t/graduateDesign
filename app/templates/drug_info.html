@@ -1,18 +1,14 @@
 {% extends 'navbar.html' %}
 
-{% block title %} ChuFang drug {% endblock %}
+{% block title %} {{ drug.name }} 说明 {% endblock %}
 {% block page_content %}
 
-
-{% for drug in drugs %}
 <div class="col-md-3">
     <div class="movielist text-center">
         <!--<img data-original="holder.js/262x166"
                  class="img-responsive lazy center-block" alt="">-->
-        <a href="{{ url_for('drug.drug_info', id=drug.id) }}" style="display: inline-block;">
         <img class="img-responsive center-block" alt=""
              src="{{ url_for('static', filename='pic/drug/'+drug.pic_name) }}" style="height:190px;width:190px;">
-        </a>
         <div class="text-left" style="margin-left:auto;margin-right:auto;width:210px;">
             <span style="color:#999;font-style: italic;">{{ drug.name }} </span>&nbsp&nbsp&nbsp
             <b>价格: {{ drug.price }} /RMB</b>
@@ -28,6 +24,8 @@
                 class="glyphicon glyphicon-shopping-cart"></span> 添加到购物车</a>
     </div><br>
 </div>
-{% endfor %}
-<br><br><br><br><br><br>
+
+<b style="font-size:35px">药品介绍</b><br><br>
+{{ drug.explain }}
+
 {% endblock %}
