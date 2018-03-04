@@ -95,6 +95,7 @@ def pay(goods):
     print(drugs)
     order = Orders(user_id=user,
                    buyDetail=detail,
+                   paySum=need_pay,
                    wallet_id=wallet)
     order.save()
     '''
@@ -125,8 +126,13 @@ def delete(commodities):
 @login_required
 def order():
     wallet = current_user.wallet_id
-    orders = wallet.orders
-    return render_template('home/order.html', orders=orders)
+    #orders = wallet.orders
+    orders = Orders.objects(wallet_id=wallet)
+    drugs = {}
+    for x in orders:
+        for y in x.buyDetail:
+            drugs[y] = Commodity.objects(id=ObjectId(y)).first().name
+    return render_template('home/order.html', orders=orders, bought=drugs)
 
 
 @home.route('/pwd', methods=['POST', 'GET'])
@@ -159,7 +165,13 @@ def tongchoujijin():
 def usejijin():
     wallet = current_user.wallet_id
     jijin_order = Orders.objects(wallet_id=wallet, useTongchou__gt=0)
-    return render_template('home/jijin_order.html', jijin_order=jijin_order)
+    drugs = {}
+    for x in jijin_order:
+        for y in x.buyDetail:
+            drugs[y] = Commodity.objects(id=ObjectId(y)).first().name
+    return render_template('home/jijin_order.html',
+                           jijin_order=jijin_order,
+                           bought=drugs)
 
 
 @home.route('/diagnosis')

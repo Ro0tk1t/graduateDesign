@@ -9,9 +9,6 @@ from app.models import Commodity
 @login_required
 def index():
     drugs = Commodity.objects.all()
-    print(type(drugs))
-    print(drugs)
-    print(dir(drugs))
     return render_template('chufang.html', drugs=drugs)
 
 

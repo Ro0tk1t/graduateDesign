@@ -138,7 +138,7 @@ def regist():
 @app.route('/search', methods=['POST', 'GET'])
 def search():
     form = SearchForm()
-    drugs = Commodity.query.filter_by(tag=form.keyword.data)
+    drugs = Commodity.objects(tag=form.keyword.data)
     print(drugs)
     if request.method == 'POST':
         return '<h1>Search for {}</h1>'.format(drugs)

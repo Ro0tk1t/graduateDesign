@@ -6,8 +6,8 @@
 <section class="content-header">
     <h1>个人信息管理</h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> 个人钱包</a></li>
-        <li class="active"> 花销记录</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> 统筹基金管理</a></li>
+        <li class="active"> 统筹基金使用记录</li>
     </ol>
 </section>
 <section class="content" id="showcontent">
@@ -31,7 +31,11 @@
                         {% for order in jijin_order %}
                         <tr>
                             <td>{{ order.id }}</td>
-                            <td>{{ order.buyDetail }}</td>
+                            <td>
+                                {% for k,v in order.buyDetail.items() %}
+                                {{ bought[k] }}: {{ v }}个<br>
+                                {% endfor %}
+                            </td>
                             <td>{{ order.useTongchou }}</td>
                             <td>{{ order.paySum }}</td>
                             <td>{{ order.isPayed }}</td>
