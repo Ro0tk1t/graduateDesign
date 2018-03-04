@@ -31,7 +31,9 @@
                                 <td>
                                     <input type="checkbox" class="custom-control-input" id="customCheck1">
                                 </td>
-                                <td class="td_bd">{{ good.id }}</td>
+                                <td class="td_bd">
+                                    <a href="{{ url_for('drug.drug_info', id=good.id) }}">{{ good.name }}</a>
+                                </td>
                                 <td>{{ good.price }}</td>
                                 <td>1</td>
                             </tr>

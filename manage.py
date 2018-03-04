@@ -15,7 +15,7 @@ def make_shell_content():
 
 @manager.shell
 def server():
-    app.debug = True
+    #app.debug = True
     app.run()
 
 

@@ -35,7 +35,7 @@
                             <td>{{ order.createDate }}</td>
                             <td>
                                 {% for k,v in order.buyDetail.items() %}
-                                {{ bought[k] }}: {{ v }}个<br>
+                                <a href="{{ url_for('drug.drug_info', id=k) }}">{{ bought[k] }}</a>: {{ v }}个<br>
                                 {% endfor %}
                             </td>
                             <td>{{ order.useTongchou }}</td>
