@@ -1,9 +1,18 @@
 {% extends 'admin/master.html' %}
+
+{% block head %}
+
+{% endblock %}
+
 {% block body %}
+
+
 <div class="container" align="right">
  <h5 align="center">Welcome to 后台管理！</h5>
     <br>
-    <p>管理员<a href="/login">登录</a></p>
+    {% if current_user.role != 'admin' %}
+    <h3 align="center">请以管理员身份 <a href="/login">登录</a></h3>
+    {% endif %}
     <br>
     Back to <a href="/">首页</a>
 <div>

@@ -16,30 +16,34 @@ from app.models import User, Wallet
 
 class CRUD(ModelView):
     column_searchable_list = (User.username,)
-    @expose('/user')
+    def is_accessible(self):
+        if not current_user.is_active or not current_user.is_authenticated:
+            return False
+        if current_user.role == 'admin':
+            return True
+        return False
+
+    def _handle_view(self, name, **kwargs):
+        """
+        Override builtin _handle_view in order to redirect users when a view is not accessible.
+        """
+        if not self.is_accessible():
+            if current_user.is_authenticated:
+                # permission denied
+                abort(403)
+            else:
+                # login
+                return self.login()
+                #return redirect(url_for('admin.index', next=request.url))
+
+    #def __init__(self, session, **kwargs):
+     #   super(CRUD, self).__init__(User, session, **kwargs)
+
+    @expose('/')
     @login_required
     def user(self):
-        pass
+        return self.render('admin/login.html')
 
-        def is_accessible(self):
-            if not current_user.is_active or not current_user.is_authenticated:
-                return False
-            if current_user.has_role('superuser'):
-                return True
-            return False
-
-        def _handle_view(self, name, **kwargs):
-            """
-            Override builtin _handle_view in order to redirect users when a view is not accessible.
-            """
-            if not self.is_accessible():
-                if current_user.is_authenticated:
-                    # permission denied
-                    abort(403)
-                else:
-                    # login
-                    return redirect(url_for('security.login', next=request.url))
-
-
-class testmongo(ModelView):
-    pass
+    @expose('/login')
+    def login(self):
+        return self.render('admin/login.html')

@@ -80,7 +80,7 @@ def add(commodity):
     user.shoppingcar.update(push__detail={str(selected.id): 1})
     return render_template('home/pay.html')
 
-
+@home.route('/pay/null')
 @home.route('/pay/<goods>', methods=['POST', 'GET'])
 @login_required
 def pay(goods):
@@ -141,7 +141,9 @@ def pwd():
             user.update(password=new_pwd)
             flash('密码修改成功 ！')
             return redirect('/home')
-    return render_template('home/pwd.html', status=1)
+        else:
+            return render_template('home/pwd.html', status=1)
+    return render_template('home/pwd.html')
 
 
 @home.route('/tongchoujijin')

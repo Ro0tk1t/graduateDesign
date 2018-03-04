@@ -29,7 +29,7 @@ principal.init_app(app)
 app.config.from_object(config.Config)
 
 
-admin = Admin(app, name=u'后台')
+admin = Admin(app, name='后台')
 model_list = [User, Orders, Commodity, Tag, Notice, Wallet, Security, ScoreGood, ScoreOrder, ShoppingCar, DiagnosisLog, DateDiag]
 for x in model_list:
     admin.add_view(admin_views.CRUD(x, db.session, category=x.__name__))
@@ -82,7 +82,6 @@ def login():
         pwd = request.form.get('password')
         user = User.objects(username=name, password=pwd).first()
         if not user:
-            flash("账户或密码错误！")
             return render_template('login.html', form=form, status=1)
         ### type(ObjectId) != type(str)
         user.id = str(user.id)
@@ -93,6 +92,8 @@ def login():
         )
         flash('login success !', category='login success')
         user.update(lastLogin=datetime.now)
+        if user.role == 'admin':
+            return redirect('/admin')
         return redirect('/home')
     else:
         return render_template('login.html', form=form)
