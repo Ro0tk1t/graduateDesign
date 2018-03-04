@@ -187,6 +187,15 @@ class DateDiag(mongo.Document):
     doc = mongo.ReferenceField('User')
     about_me = mongo.StringField()
 
+
+class HospitalizationLog(mongo.Document):
+    ''' 住院记录 '''
+    user_id = mongo.ReferenceField('User')
+    start_date = mongo.DateTimeField(default=datetime.now)
+    status = mongo.BooleanField()
+    end_date = mongo.DateTimeField(default=datetime.now)
+    place = mongo.StringField(required=True)
+
 # class News(db.Model):
 #    auth = db.relationship("User", backref='news')
 #    pushDate = mongo.DateTimeField(default=datetime.now)

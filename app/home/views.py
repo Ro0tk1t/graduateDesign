@@ -2,7 +2,7 @@
 from . import home
 from flask import abort, redirect, url_for, render_template, request, flash
 from app.extensions import current_user, login_required
-from app.models import User, Orders, Commodity, DiagnosisLog, DateDiag
+from app.models import User, Orders, Commodity, DiagnosisLog, DateDiag, HospitalizationLog
 from .forms import InfoForm, DateDiagnosis, PwdForm
 from flask_admin.contrib.mongoengine.filters import ObjectId
 from collections import Counter
@@ -198,3 +198,9 @@ def date_diag():
         flash('预约成功!  ')
         return redirect('/home')
     return render_template('home/date_diag.html', form=form)
+
+@home.route('/hospitalization_log')
+@login_required
+def hospitalization_log():
+    logs = HospitalizationLog.objects()
+    return render_template('home/hospitalization_log.html', logs=logs)

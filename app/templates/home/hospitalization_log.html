@@ -1,0 +1,47 @@
+{%- extends 'home/user.html' %}
+{%- block title %} 住院记录 {% endblock %}
+
+{%- block content %}
+
+<section class="content-header">
+    <h1>个人信息管理</h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 住院管理</a></li>
+        <li class="active"> 住院记录</li>
+    </ol>
+</section>
+<section class="content" id="showcontent">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">记录列表</h3>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <th class="td_bd"> 住院号</th>
+                            <th> 入住时间</th>
+                            <th> 住院状态</th>
+                            <th> 出院时间</th>
+                            <th> 住院位置</th>
+                        </tr>
+                        {% for log in logs %}
+                        <tr>
+                            <td>{{ log.id }}</td>
+                            <td>{{ log.start_date }}</td>
+                            <td>{{ log.status }}</td>
+                            <td>{{ log.end_date }}</td>
+                            <td>{{ log.place }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
