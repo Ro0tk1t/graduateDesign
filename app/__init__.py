@@ -5,11 +5,10 @@ from flask import abort, redirect, flash, current_app
 from app.home import home as home_blueprint
 from app.admin import admin as admin_blueprint
 from app.drug import drug as drug_blueprint
+from app.doctor import doctor as doctor_blueprint
 from app.extensions import Bcrypt, Bootstrap, login_manage, principal, current_user, login_user, logout_user, admin_permission
 from flask_principal import identity_changed, identity_loaded, UserNeed, RoleNeed, Identity, Permission
 from flask_admin import Admin, BaseView
-from flask_admin.contrib.mongoengine import ModelView
-from flask_admin.contrib.mongoengine.filters import BaseMongoEngineFilter
 from app.models import mongo, db, User, Orders, Commodity, Tag, Notice, Wallet, Security, ScoreGood, ScoreOrder, ShoppingCar,DiagnosisLog, DateDiag
 from app.forms import LoginForm, SearchForm, RegistForm
 from app import config
@@ -20,6 +19,7 @@ from datetime import timedelta,datetime
 app = Flask(__name__)
 app.register_blueprint(home_blueprint, url_prefix='/home')
 app.register_blueprint(drug_blueprint, url_prefix='/drug')
+app.register_blueprint(doctor_blueprint, url_prefix='/doctor')
 # app.register_blueprint(admin_blueprint, url_prefix='/admin')
 Bcrypt.init_app(app)
 Bootstrap.init_app(app)
@@ -93,6 +93,8 @@ def login():
         user.update(lastLogin=datetime.now)
         if user.role == 'admin':
             return redirect('/admin')
+        if user.role == 'doctor':
+            return redirect('/doctor')
         return redirect('/home')
     else:
         return render_template('login.html', form=form)

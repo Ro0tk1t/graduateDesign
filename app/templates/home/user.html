@@ -22,6 +22,7 @@
             text-align:center;
         }
 
+
     </style>
     {% block css %} {% endblock %}
 </head>
@@ -91,21 +92,30 @@
                     </span>
                 </div>
             </form>
+            {% if current_user.role == 'doctor' %}
+            {% include 'doctor/sidebar.html' %}
+            {% else %}
             {% include 'home/sidebar.html' %}
+            {% endif %}
         </section>
     </aside>
     <div class="content-wrapper">
         <!--内容-->
         {% block content %}
         <center>
-        <div class="jumbotron">
-            <h1>欢迎来到个人中心 !</h1><br>
-            <div class="container">
-            <p>您可以在这里查看修改个人资料 查看订单 钱包 统筹基金 积分 就诊记录等操作</p>
-                <p>以及预约专家就诊等</p><br><br><br>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+            <div class="jumbotron">
+                <h1>欢迎来到个人中心 !</h1><br>
+                <div class="container">
+                    {% if current_user.role == 'doctor' %}
+                    <p>hello doctor</p>
+                    {% else %}
+                    <p>您可以在这里查看修改个人资料 查看订单 钱包 统筹基金 积分 就诊记录等操作</p>
+                    <p>以及预约专家就诊等</p>
+                    {% endif %}
+                    <br><br><br>
+                    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+                </div>
             </div>
-        </div>
             {% for msg in get_flashed_messages() %}
             <b style="font-size:40px">{{ msg }}</b>
             {% endfor %}

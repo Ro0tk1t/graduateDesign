@@ -57,6 +57,8 @@
                 <li>
                     {% if current_user.role == 'admin' %}
                     <a href="/admin">(<b>{{ current_user.username }}</b>)管理后台</a>
+                    {% elif current_user.role == 'doctor' %}
+                    <a href="{{ url_for('doctor.index') }}">(<b>{{ current_user.username }}</b>)个人中心</a>
                     {% else %}
                     <a href="{{ url_for('home.index') }}">(<b>{{ current_user.username }}</b>)个人中心</a>
                     {% endif %}

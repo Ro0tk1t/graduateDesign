@@ -1,0 +1,131 @@
+<ul class="sidebar-menu">
+    <li class="header">管理菜单</li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <span>首页</span>
+            <span class="label label-primary pull-right">1</span>
+        </a>
+        <ul class="treeview-menu">
+            <li>
+                <a href="{{ url_for('index') }}">
+                    <i class="fa fa-circle-o"></i> 系统首页
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-tags" aria-hidden="true"></i>
+            <span>浏览个人信息</span>
+            <span class="label label-primary pull-right">1</span>
+        </a>
+        <ul class="treeview-menu">
+            <li>
+                <a href="{{ url_for('home.info', user=current_user) }}">
+                    <i class="fa fa-circle-o"></i> 个人信息概览
+                </a>
+            </li>
+            <!--li>
+                <a href="tag_list.html">
+                    <i class="fa fa-circle-o"></i> 家属信息
+                </a>
+            </li -->
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-file-video-o" aria-hidden="true"></i>
+            <span>修改个人信息</span>
+            <span class="label label-primary pull-right">3</span>
+        </a>
+        <ul class="treeview-menu">
+            <li>
+                <a href="{{ url_for('home.change_info') }}">
+                    <i class="fa fa-circle-o"></i> 修改信息
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('home.pwd') }}">
+                    <i class="fa fa-circle-o"></i> 修改密码
+                </a>
+            </li>
+            <li>
+                <a href="movie_list.html">
+                    <i class="fa fa-circle-o"></i> 修改密保问题
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-file-text" aria-hidden="true"></i>
+            <span>操作管理</span>
+            <span class="label label-primary pull-right">1</span>
+        </a>
+        <ul class="treeview-menu">
+            <li>
+                <a href="{{ url_for('doctor.order') }}">
+                    <i class="fa fa-circle-o"></i> 添加公告信息
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('doctor.order') }}">
+                    <i class="fa fa-circle-o"></i> 查询药品订单
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-film" aria-hidden="true"></i>
+            <span>就诊管理</span>
+            <span class="label label-primary pull-right">2</span>
+        </a>
+        <ul class="treeview-menu">
+            <li>
+                <a href="{{ url_for('home.diagnosis') }}">
+                    <i class="fa fa-circle-o"></i> 查询就诊记录
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('home.date_diag') }}">
+                    <i class="fa fa-circle-o"></i> 待就诊列表
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-users" aria-hidden="true"></i>
+            <span>积分管理</span>
+            <span class="label label-primary pull-right">2</span>
+        </a>
+        <ul class="treeview-menu">
+            <li>
+                <a href="user_list.html">
+                    <i class="fa fa-circle-o"></i> 积分余额
+                </a>
+            </li>
+            <li>
+                <a href="user_list.html">
+                    <i class="fa fa-circle-o"></i> 积分订单列表
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-heart" aria-hidden="true"></i>
+            <span>住院管理</span>
+            <span class="label label-primary pull-right">1</span>
+        </a>
+        <ul class="treeview-menu">
+            <li>
+                <a href="{{ url_for('home.hospitalization_log') }}">
+                    <i class="fa fa-circle-o"></i> 住院查询
+                </a>
+            </li>
+        </ul>
+    </li>
+</ul>
