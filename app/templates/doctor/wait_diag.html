@@ -1,0 +1,45 @@
+{%- extends 'home/user.html' %}
+{%- block title %} 待就诊 {% endblock %}
+
+{%- block content %}
+
+<section class="content-header">
+    <h1>个人信息管理</h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 就诊管理</a></li>
+        <li class="active"> 待就诊列表</li>
+    </ol>
+</section>
+<section class="content" id="showcontent">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">订单列表</h3>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <th class="td_bd"> 患者姓名</th>
+                            <th> 预约时间</th>
+                            <th> 病情描述</th>
+                            <th> </th>
+                        </tr>
+                        {% for diag in diags %}
+                        <tr>
+                            <td>{{ diag.custom }}</td>
+                            <td>{{ diag.date }}</td>
+                            <td>{{ diag.about_me }}</td>
+                            <td><a href="{{ url_for(doctor.finish_diag, diag_id=diag.id) }}">确认完成就诊</a></td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

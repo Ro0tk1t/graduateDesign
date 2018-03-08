@@ -176,6 +176,7 @@ class DiagnosisLog(mongo.Document):
     user_id = mongo.ReferenceField('User')
     diagnosis_date = mongo.DateTimeField(default=datetime.now)
     doctor = mongo.StringField(default='admin')
+    custom = mongo.StringField()  # 患者姓名
     diagnosis_result = mongo.StringField(default='healthy')
     need_hospitalization = mongo.BooleanField()
 
@@ -184,7 +185,8 @@ class DateDiag(mongo.Document):
     ''' 预约记录 '''
     user_id = mongo.ReferenceField('User')
     date = mongo.DateTimeField()
-    doc = mongo.ReferenceField('User')
+    custom = mongo.StringField()   #患者姓名
+    doctor = mongo.ReferenceField('User')
     about_me = mongo.StringField()
 
 

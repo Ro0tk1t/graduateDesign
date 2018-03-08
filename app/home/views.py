@@ -189,9 +189,9 @@ def date_diag():
         date = form.date.data
         doctor = form.doctor.data
         about = form.about.data
-        add = DateDiag(doc=User.objects(id=ObjectId(doctor)).first(),
+        add = DateDiag(doctor=User.objects(id=ObjectId(doctor)).first(),
                        user_id=User.objects(id=ObjectId(current_user.id)).first(),
-                       date=date,
+                       date=date, custom=current_user.realname,
                        about_me=about)
         add.save()
         print(date)

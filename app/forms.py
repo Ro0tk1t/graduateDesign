@@ -1,5 +1,5 @@
 #coding:utf8
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Length,EqualTo, URL
 from flask import Flask
@@ -8,17 +8,17 @@ from app import config
 
 app = Flask(__name__)
 #app.config.from_object('config')
-class SearchForm(Form):
+class SearchForm(FlaskForm):
     keyword = StringField('KW', [DataRequired(), Length(max=100)])
 
 
-class LoginForm(Form):
+class LoginForm(FlaskForm):
     username = StringField('Username', [DataRequired(), Length(max=100)])
     password = PasswordField('Password', [DataRequired()])
     remember = BooleanField('Remember Me')
 
 
-class RegistForm(Form):
+class RegistForm(FlaskForm):
     username = StringField('Username', [DataRequired(), Length(max=100)])
     password = PasswordField('Password', [DataRequired()])
     # nikename = StringField('Username', [DataRequired(), Length(max=100)])
