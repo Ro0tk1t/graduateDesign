@@ -187,7 +187,7 @@ class DateDiag(mongo.Document):
     user_id = mongo.ReferenceField('User')
     date = mongo.DateTimeField()
     create_date = mongo.DateTimeField(default=datetime.now)
-    status = mongo.BooleanField()
+    status = mongo.BooleanField(default=False)
     custom = mongo.StringField()   #患者姓名
     doctor = mongo.ReferenceField('User')
     about_me = mongo.StringField()

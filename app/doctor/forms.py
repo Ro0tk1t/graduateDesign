@@ -10,3 +10,4 @@ class NoticeForm(FlaskForm):
 class FinishDiagForm(FlaskForm):
     diagnosis_result = TextAreaField('result', [DataRequired()])
     need_hospitalization = StringField('hospitalization', [DataRequired()])
+    username = StringField('username')

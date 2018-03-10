@@ -207,10 +207,12 @@ def date_diag_list():
     return render_template('home/date_diag_list.html', dates=dates)
 
 
-@home.route('/one_diag', methods=['POST', 'GET'])
+@home.route('/one_diag/<log_id>', methods=['POST', 'GET'])
 @login_required
-def one_diag():
-    return render_template('home/one_diag.html')
+def one_diag(log_id):
+    date_log = DateDiag.objects(id=ObjectId(log_id)).first()
+    check_log = DiagnosisLog.objects(for_dated=date_log.id).first()
+    return render_template('home/one_diag.html', log=check_log)
 
 @home.route('/hospitalization_log')
 @login_required

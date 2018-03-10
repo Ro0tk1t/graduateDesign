@@ -1,5 +1,5 @@
 from . import doctor
-from flask import render_template, request, flash
+from flask import render_template, request, flash, redirect
 from app.models import User, Commodity, Orders, Notice, DateDiag, DiagnosisLog
 from app.extensions import login_required, current_user
 from flask_admin.contrib.mongoengine.filters import ObjectId
@@ -47,8 +47,9 @@ def diag_done():
 @doctor.route('/wait_diag')
 @login_required
 def wait_diag():
-    diags = DateDiag.objects(doctor=ObjectId(current_user.id))
+    diags = DateDiag.objects(doctor=ObjectId(current_user.id), status=False)
     return render_template('doctor/wait_diag.html', diags=diags)
+
 
 @doctor.route('/finish_diag/<diag_id>', methods=['POST', 'GET'])
 @login_required
@@ -58,11 +59,13 @@ def finish_diag(diag_id):
     if request.method == 'POST':
         diagnosis_result = form.diagnosis_result.data
         need_hospitalization = form.need_hospitalization.data
-        DiagnosisLog(diagnosis_result=diagnosis_result,
-                     need_hospitalization=need_hospitalization,
-                     doctor=current_user.realname,
-                     custom=User.objects(id).first().username    ########################################################    WIP
-                     )
-        diagnosis_result.save() and diag.update(status=True)
+        need = True if need_hospitalization == 'yes' else False
+        log = DiagnosisLog(diagnosis_result=diagnosis_result,
+                           doctor=current_user.username,  ##############################################fixme: 无法获取医生姓名
+                           custom=diag.user_id.username,
+                           need_hospitalization=need,
+                           for_dated=diag)
+        log.save() and diag.update(status=True)
         flash('确认就诊成功！')
-    return render_template('doctor/finish_diag.html', form=form)
+        return redirect('/doctor')
+    return render_template('doctor/finish_diag.html', form=form, diag=diag)

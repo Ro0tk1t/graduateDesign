@@ -1,10 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{%- extends 'home/user.html' %}
+{%- block title %} 购物车 {% endblock %}
 
-</body>
-</html>
+{%- block content %}
+<section class="content-header">
+    <h1>个人信息管理</h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ current_user.username }}/info"><i class="fa fa-dashboard"></i> 个人钱包</a></li>
+        <li class="active">购物车</li>
+    </ol>
+</section>
+
+<section><br><br>
+<div class="col-md-6">
+    <div class="movielist text-center">
+        <b style="font-size:20px">诊断医生: &nbsp&nbsp&nbsp {{ log.doctor.realname }}</b><br><br>
+        <b style="font-size:20px">诊断时间: &nbsp&nbsp&nbsp {{ log.diagnosis_date }}</b><br><br>
+        <b style="font-size:20px">是否需要住院: &nbsp&nbsp&nbsp
+            {% if log.need_hospitalization %}
+            需要
+            {% else %}
+            不需要
+            {% endif %}
+        </b><br>
+    </div><br><br>
+</div>
+</section><section>
+<b style="font-size:35px; color:red">诊断结果</b><br><br>
+    <h4>{{ log.diagnosis_result }}</h4>
+</section>
+{% endblock %}

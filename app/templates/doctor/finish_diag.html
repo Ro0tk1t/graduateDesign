@@ -3,10 +3,8 @@
 {%- block title %} 修改密码 {% endblock %}
 
 {% block css %}
-<link href="{{ url_for('static',filename='bootstrap-datetimepicker/bootstrap-datetimepicker.min.css') }}"
-      rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-datetimepicker/bootstrap-select.min.css') }}">
 {% endblock %}
-
 {%- block content %}
 
 <section class="content-header">
@@ -29,29 +27,20 @@
                         <table class="table table-hover">
                             <tbody>
                             <tr>
-                                <td class="td_bd">确认时间：</td>
-                                <td>
-                                    <div class="input-group bootstrap-timepicker timepicker">
-                                        <input id="timepicker"
-                                               class="form-control"
-                                               data-provide="timepicker"
-                                               data-template="modal"
-                                               data-minute-step="1"
-                                               data-modal-backdrop="true"
-                                               data-date-format="yyyy-mm-dd hh:ii:ss"
-                                               name="date"
-                                               type="text"/>
-                                    </div>
-                                </td>
+                                <td class="td_bd">患者姓名：</td>
+                                <td name="username">{{ diag.custom }}</td>
                             </tr>
                             <tr>
-                                <td class="td_bd">预约医生：</td>
-                                <td>{{ wtf.form_field(form.doctor, type='datetime')}}</td>
+                                <td class="td_bd">诊断结果：</td>
+                                <td>{{ wtf.form_field(form.diagnosis_result, type='text') }}</td>
                             </tr>
                             <tr>
-                                <td class="td_bd">病情描述：</td>
+                                <td class="td_bd">是否需要住院：</td>
                                 <td>
-                                    {{ wtf.form_field(form.about)}}
+                                    <select class="selectpicker" name="need_hospitalization" id="need_hospitalization">
+                                        <option value="no">否</option>
+                                        <option value="yes">是</option>
+                                    </select>
                                 </td>
                             </tr>
                             </tbody>
@@ -61,7 +50,7 @@
                             {{ msg }}
                             {% endfor %}
                             <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>
-                                确认预约
+                                确认完成就诊
                             </button>
                         </center>
                         <br>
@@ -74,7 +63,11 @@
 {% endblock %}
 
 {% block js %}
-<script src="{{ url_for('static', filename='bootstrap-datetimepicker/datetimepicker.js') }}"></script>
-<script src="{{ url_for('static',filename='js/datetime.js') }}">
+<script src="{{ url_for('static', filename='bootstrap-datetimepicker/bootstrap-select.min.js') }}"/>
+<script>
+  $('.selectpicker').selectpicker({
+  style: 'btn-info',
+  size: 1
+});
 </script>
 {% endblock %}
