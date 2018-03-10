@@ -56,14 +56,17 @@ def wait_diag():
 def finish_diag(diag_id):
     diag = DateDiag.objects(id=ObjectId(diag_id)).first()
     form = FinishDiagForm()
+    print(diag.user_id.id)
+    print(type(diag.user_id.id))
     if request.method == 'POST':
         diagnosis_result = form.diagnosis_result.data
         need_hospitalization = form.need_hospitalization.data
         need = True if need_hospitalization == 'yes' else False
         log = DiagnosisLog(diagnosis_result=diagnosis_result,
-                           doctor=current_user.username,  ##############################################fixme: 无法获取医生姓名
+                           doctor=current_user.username,
                            custom=diag.user_id.username,
                            need_hospitalization=need,
+                           user_id=diag.user_id.id,
                            for_dated=diag)
         log.save() and diag.update(status=True)
         flash('确认就诊成功！')

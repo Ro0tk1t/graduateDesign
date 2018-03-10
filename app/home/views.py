@@ -194,7 +194,6 @@ def date_diag():
                        date=date, custom=current_user.username,
                        about_me=about)
         add.save()
-        print(date)
         flash('预约成功!  ')
         return redirect('/home')
     return render_template('home/date_diag.html', form=form)
