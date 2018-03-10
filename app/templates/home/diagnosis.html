@@ -1,13 +1,13 @@
 {%- extends 'home/user.html' %}
-{%- block title %} 钱包 {% endblock %}
+{%- block title %}  查询就诊记录 {% endblock %}
 
 {%- block content %}
 
 <section class="content-header">
     <h1>个人信息管理</h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> 个人钱包</a></li>
-        <li class="active"> 花销记录</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> 就诊查询管理</a></li>
+        <li class="active">  查询就诊记录</li>
     </ol>
 </section>
 <section class="content" id="showcontent">
@@ -33,7 +33,11 @@
                             <td>{{ log.diagnosis_date }}</td>
                             <td>{{ log.doctor }}</td>
                             <td>{{ log.diagnosis_result }}</td>
-                            <td>{{ log.need_hospitalization }}</td>
+                            {% if log.need_hospitalization %}
+                            <td>需要</td>
+                            {% else %}
+                            <td>不需要</td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                         </tbody>

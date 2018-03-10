@@ -40,8 +40,7 @@ def add_notice():
 @login_required
 def diag_done():
     diags = DiagnosisLog.objects(doctor=current_user.realname)
-    customs = [User.objects(username=x.custom).first() for x in diags]
-    return render_template('doctor/diag_done.html', diags=diags, customs=customs)
+    return render_template('doctor/diag_done.html', diags=diags)
 
 
 @doctor.route('/wait_diag')

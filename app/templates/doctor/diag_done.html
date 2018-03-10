@@ -29,15 +29,15 @@
                         </tr>
                         {% for diag in diags %}
                         <tr>
-                            {% for cus in customs %}
-                            {% if cus.username == diag.custom %}
-                            <td>{{ cus.realname }}</td>
-                            {% endif %}
-                            {% endfor %}
+                            <td>{{ diag.user_id.realname }}</td>
                             <td>{{ diag.diagnosis_date }}</td>
                             <td>{{ diag.doctor }}</td>
                             <td>{{ diag.diagnosis_result }}</td>
-                            <td>{{ diag.need_hospitalization }}</td>
+                            {% if diag.need_hospitalization %}
+                            <td>需要</td>
+                            {% else %}
+                            <td>不需要</td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                         </tbody>
