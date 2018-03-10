@@ -191,13 +191,26 @@ def date_diag():
         about = form.about.data
         add = DateDiag(doctor=User.objects(id=ObjectId(doctor)).first(),
                        user_id=User.objects(id=ObjectId(current_user.id)).first(),
-                       date=date, custom=current_user.realname,
+                       date=date, custom=current_user.username,
                        about_me=about)
         add.save()
         print(date)
         flash('预约成功!  ')
         return redirect('/home')
     return render_template('home/date_diag.html', form=form)
+
+
+@home.route('/date_diag_list', methods=['POST', 'GET'])
+@login_required
+def date_diag_list():
+    dates = DateDiag.objects(user_id=ObjectId(current_user.id))
+    return render_template('home/date_diag_list.html', dates=dates)
+
+
+@home.route('/one_diag', methods=['POST', 'GET'])
+@login_required
+def one_diag():
+    return render_template('home/one_diag.html')
 
 @home.route('/hospitalization_log')
 @login_required

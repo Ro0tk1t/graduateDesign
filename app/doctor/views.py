@@ -40,7 +40,8 @@ def add_notice():
 @login_required
 def diag_done():
     diags = DiagnosisLog.objects(doctor=current_user.realname)
-    return render_template('doctor/diag_done.html', diags=diags)
+    customs = [User.objects(username=x.custom).first() for x in diags]
+    return render_template('doctor/diag_done.html', diags=diags, customs=customs)
 
 
 @doctor.route('/wait_diag')
@@ -52,7 +53,7 @@ def wait_diag():
 @doctor.route('/finish_diag/<diag_id>', methods=['POST', 'GET'])
 @login_required
 def finish_diag(diag_id):
-    diag = DateDiag.objects(id=ObjectId(diag_id))
+    diag = DateDiag.objects(id=ObjectId(diag_id)).first()
     form = FinishDiagForm()
     if request.method == 'POST':
         diagnosis_result = form.diagnosis_result.data
@@ -60,6 +61,8 @@ def finish_diag(diag_id):
         DiagnosisLog(diagnosis_result=diagnosis_result,
                      need_hospitalization=need_hospitalization,
                      doctor=current_user.realname,
-                     custom=User.objects(id)    ##########################################################################################    WIP
+                     custom=User.objects(id).first().username    ########################################################    WIP
                      )
-    return render_template('doctor/finish_diag.html')
+        diagnosis_result.save() and diag.update(status=True)
+        flash('确认就诊成功！')
+    return render_template('doctor/finish_diag.html', form=form)

@@ -1,10 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{%- extends 'home/user.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{%- block title %} 修改密码 {% endblock %}
 
-</body>
-</html>
+{% block css %}
+<link href="{{ url_for('static',filename='bootstrap-datetimepicker/bootstrap-datetimepicker.min.css') }}"
+      rel="stylesheet">
+{% endblock %}
+
+{%- block content %}
+
+<section class="content-header">
+    <h1>个人信息管理</h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 就诊查询管理</a></li>
+        <li class="active">确认就诊</li>
+    </ol>
+</section>
+<section class="content" id="showcontent">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">确认信息填写</h3>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    <form action="" method="post">
+                        {{ form.hidden_tag() }}
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr>
+                                <td class="td_bd">确认时间：</td>
+                                <td>
+                                    <div class="input-group bootstrap-timepicker timepicker">
+                                        <input id="timepicker"
+                                               class="form-control"
+                                               data-provide="timepicker"
+                                               data-template="modal"
+                                               data-minute-step="1"
+                                               data-modal-backdrop="true"
+                                               data-date-format="yyyy-mm-dd hh:ii:ss"
+                                               name="date"
+                                               type="text"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td_bd">预约医生：</td>
+                                <td>{{ wtf.form_field(form.doctor, type='datetime')}}</td>
+                            </tr>
+                            <tr>
+                                <td class="td_bd">病情描述：</td>
+                                <td>
+                                    {{ wtf.form_field(form.about)}}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <center>
+                            {% for msg in get_flashed_messages() %}
+                            {{ msg }}
+                            {% endfor %}
+                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>
+                                确认预约
+                            </button>
+                        </center>
+                        <br>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='bootstrap-datetimepicker/datetimepicker.js') }}"></script>
+<script src="{{ url_for('static',filename='js/datetime.js') }}">
+</script>
+{% endblock %}

@@ -29,7 +29,7 @@ role_list = ('admin', 'user', 'doctor')
 
 class User(mongo.Document):
     ''' 用户 '''
-    username = mongo.StringField(required=True)
+    username = mongo.StringField(required=True, unique=True)
     realname = mongo.StringField()
     password = mongo.StringField()
     email = mongo.StringField(unique=True)
@@ -179,12 +179,15 @@ class DiagnosisLog(mongo.Document):
     custom = mongo.StringField()  # 患者姓名
     diagnosis_result = mongo.StringField(default='healthy')
     need_hospitalization = mongo.BooleanField()
+    for_dated = mongo.ReferenceField('DateDiag')
 
 
 class DateDiag(mongo.Document):
     ''' 预约记录 '''
     user_id = mongo.ReferenceField('User')
     date = mongo.DateTimeField()
+    create_date = mongo.DateTimeField(default=datetime.now)
+    status = mongo.BooleanField()
     custom = mongo.StringField()   #患者姓名
     doctor = mongo.ReferenceField('User')
     about_me = mongo.StringField()

@@ -29,7 +29,11 @@
                         </tr>
                         {% for diag in diags %}
                         <tr>
-                            <td>{{ current_user.realname }}</td>
+                            {% for cus in customs %}
+                            {% if cus.username == diag.custom %}
+                            <td>{{ cus.realname }}</td>
+                            {% endif %}
+                            {% endfor %}
                             <td>{{ diag.diagnosis_date }}</td>
                             <td>{{ diag.doctor }}</td>
                             <td>{{ diag.diagnosis_result }}</td>
