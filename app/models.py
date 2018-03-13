@@ -196,9 +196,10 @@ class DateDiag(mongo.Document):
 class HospitalizationLog(mongo.Document):
     ''' 住院记录 '''
     user_id = mongo.ReferenceField('User')
+    id_card = mongo.StringField()
     start_date = mongo.DateTimeField(default=datetime.now)
-    status = mongo.BooleanField()
-    end_date = mongo.DateTimeField(default=datetime.now)
+    status = mongo.BooleanField(default=True)
+    end_date = mongo.DateTimeField()
     place = mongo.StringField(required=True)
 
 # class News(db.Model):

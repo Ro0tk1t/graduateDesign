@@ -216,5 +216,5 @@ def one_diag(log_id):
 @home.route('/hospitalization_log')
 @login_required
 def hospitalization_log():
-    logs = HospitalizationLog.objects()
+    logs = HospitalizationLog.objects(user_id=ObjectId(current_user.id))
     return render_template('home/hospitalization_log.html', logs=logs)

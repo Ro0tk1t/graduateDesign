@@ -1,9 +1,9 @@
 from . import doctor
 from flask import render_template, request, flash, redirect
-from app.models import User, Commodity, Orders, Notice, DateDiag, DiagnosisLog
+from app.models import User, Commodity, Orders, Notice, DateDiag, DiagnosisLog, HospitalizationLog
 from app.extensions import login_required, current_user
 from flask_admin.contrib.mongoengine.filters import ObjectId
-from app.doctor.forms import NoticeForm, FinishDiagForm
+from app.doctor.forms import NoticeForm, FinishDiagForm, HostForm
 
 
 @doctor.route('/')
@@ -71,3 +71,30 @@ def finish_diag(diag_id):
         flash('确认就诊成功！')
         return redirect('/doctor')
     return render_template('doctor/finish_diag.html', form=form, diag=diag)
+
+
+@doctor.route('/hospitalization_log')
+@login_required
+def hospitalization_log():
+    logs = HospitalizationLog.objects()
+    return render_template('home/hospitalization_log.html', logs=logs)
+
+
+@doctor.route('/add_host', methods=['POST', 'GET'])
+def add_host():
+    form = HostForm()
+    if request.method == 'POST':
+        realname = form.realname.data
+        id_card = form.id_card.data
+        #start_date = form.start.date
+        end_date = form.end_date.data
+        place = form.place.data
+        custom = User.objects(realname=realname,
+                     idCard=id_card).first_or_404()
+        log = HospitalizationLog(user_id=custom.id,
+                                 id_card=id_card,
+                                 end_date=end_date,
+                                 place=place)
+        log.save()
+
+    return render_template('doctor/add_host.html', form=form)

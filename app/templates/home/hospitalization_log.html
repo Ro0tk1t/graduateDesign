@@ -31,7 +31,13 @@
                         <tr>
                             <td>{{ log.id }}</td>
                             <td>{{ log.start_date }}</td>
-                            <td>{{ log.status }}</td>
+                            <td>
+                                {% if log.status %}
+                                住院中
+                                {% else %}
+                                已出院
+                                {% endif %}
+                            </td>
                             <td>{{ log.end_date }}</td>
                             <td>{{ log.place }}</td>
                         </tr>
