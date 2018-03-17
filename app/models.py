@@ -4,17 +4,11 @@ from flask import Flask
 from app.extensions import Bcrypt, SQLAlchemy
 from flask_login import AnonymousUserMixin
 from flask_mongoengine import MongoEngine
-#from app import config
+from app import config
 
 app = Flask(__name__)
-#app.config.from_object(config.DevConfig)
-#app.config.from_pyfile(config.DevConfig)
+app.config.from_object(config.DevConfig)
 db = SQLAlchemy(app)
-app.config['MONGODB_SETTINGS'] = {
-    'db': 'node',
-    'host': 'localhost',
-    'port': 27017
-}
 mongo = MongoEngine(app)
 
 

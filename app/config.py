@@ -14,7 +14,7 @@ class Config(object):
 
 class DevConfig(object):
     MONGODB_SETTINGS = {
-        'db': 'localhost',
+        'db': 'node',
         'host': 'localhost',
         'port': 27017
     }
