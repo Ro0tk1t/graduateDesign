@@ -33,7 +33,7 @@
                                 <td>
                                     <div class="input-group bootstrap-timepicker timepicker">
                                         <input id="timepicker"
-                                               class="form-control"
+                                               class="date"
                                                data-provide="timepicker"
                                                data-template="modal"
                                                data-minute-step="1"
@@ -51,7 +51,7 @@
                             <tr>
                                 <td class="td_bd">病情描述：</td>
                                 <td>
-                                    {{ wtf.form_field(form.about)}}
+                                    {{ wtf.form_field(form.about,class="form-control")}}
                                 </td>
                             </tr>
                             </tbody>

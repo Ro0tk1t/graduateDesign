@@ -30,7 +30,7 @@
                         {% for log in logs %}
                         <tr>
                             <td>{{ log.id }}</td>
-                            <td>{{ log.start_date }}</td>
+                            <td>{{ log.start_date.__str__()[:16] }}</td>
                             <td>
                                 {% if log.status %}
                                 住院中
@@ -38,7 +38,7 @@
                                 已出院
                                 {% endif %}
                             </td>
-                            <td>{{ log.end_date }}</td>
+                            <td>{{ log.end_date.__str__()[:16] }}</td>
                             <td>{{ log.place }}</td>
                         </tr>
                         {% endfor %}

@@ -31,8 +31,8 @@
                         {% for date in dates %}
                         <tr>
                             <td>{{ date.id }}</td>
-                            <td>{{ date.create_date }}</td>
-                            <td>{{ date.date }}</td>
+                            <td>{{ date.create_date.__str__()[:16] }}</td>
+                            <td>{{ date.date.__str__()[:16] }}</td>
                             <td>{{ date.doctor.realname }}</td>
                             <td>{{ date.about_me }}</td>
                             {% if date.status %}
