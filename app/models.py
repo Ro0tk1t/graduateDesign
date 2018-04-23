@@ -107,7 +107,7 @@ class Commodity(mongo.Document):
     pic_name = mongo.StringField()
     price = mongo.FloatField(required=True)
     explain = mongo.StringField()
-    tags = mongo.ListField(mongo.ReferenceField('Tag'))
+    tags = mongo.ListField(mongo.StringField())
 
     def __repr__(self):
         return '<Commodity %r>' % self.name

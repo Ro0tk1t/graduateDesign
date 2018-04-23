@@ -6,7 +6,7 @@ from app.home import home as home_blueprint
 from app.admin import admin as admin_blueprint
 from app.drug import drug as drug_blueprint
 from app.doctor import doctor as doctor_blueprint
-from app.extensions import Bcrypt, Bootstrap, login_manage, principal, current_user, login_user, logout_user, admin_permission
+from app.extensions import Bcrypt, Bootstrap, login_manage, principal, current_user, login_user, logout_user, admin_permission, login_required
 from flask_principal import identity_changed, identity_loaded, UserNeed, RoleNeed, Identity, Permission
 from flask_admin import Admin, BaseView
 from app.models import mongo, db, User, Orders, Commodity, Tag, Notice, Wallet, Security, ScoreGood, ScoreOrder, ShoppingCar,DiagnosisLog, DateDiag, HospitalizationLog
@@ -138,11 +138,13 @@ def create_app(object_name=None):
     
     
     @app.route('/search', methods=['POST', 'GET'])
+    @login_required
     def search():
         form = SearchForm()
-        drugs = Commodity.objects(tag=form.keyword.data)
-        print(drugs)
         if request.method == 'POST':
+            keyword = form.keyword.data
+            drugs = Commodity.objects(tag__contains=keyword)
+            print(drugs)
             return '<h1>Search for {}</h1>'.format(drugs)
     
     
