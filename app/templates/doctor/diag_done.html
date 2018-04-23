@@ -30,7 +30,7 @@
                         {% for diag in diags %}
                         <tr>
                             <td>{{ diag.user_id.realname }}</td>
-                            <td>{{ diag.diagnosis_date }}</td>
+                            <td>{{ diag.diagnosis_date.__str__()[:16] }}</td>
                             <td>{{ diag.doctor }}</td>
                             <td>{{ diag.diagnosis_result }}</td>
                             {% if diag.need_hospitalization %}

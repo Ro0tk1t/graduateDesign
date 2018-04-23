@@ -29,7 +29,7 @@
                         {% for diag in diags %}
                         <tr>
                             <td>{{ diag.custom }}</td>
-                            <td>{{ diag.date }}</td>
+                            <td>{{ diag.date.__str__()[:16] }}</td>
                             <td>{{ diag.about_me }}</td>
                             <td><a href="{{ url_for('doctor.finish_diag', diag_id=diag.id) }}">确认完成就诊</a></td>
                         </tr>

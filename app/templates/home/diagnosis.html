@@ -30,7 +30,7 @@
                         {% for log in diags %}
                         <tr>
                             <td>{{ log.id }}</td>
-                            <td>{{ log.diagnosis_date }}</td>
+                            <td>{{ log.diagnosis_date.__str__()[:16] }}</td>
                             <td>{{ log.doctor }}</td>
                             <td>{{ log.diagnosis_result }}</td>
                             {% if log.need_hospitalization %}
