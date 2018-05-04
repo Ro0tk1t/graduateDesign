@@ -1,0 +1,16 @@
+{% extends 'navbar.html' %}
+
+{% block title %} 兑换结果 {% endblock %}
+{% block page_content %}
+
+<center>
+{% if status %}
+    积分兑换成功 !<br>
+    请凭<a href="{{ url_for('home.score_order') }}">兑换记录</a>
+    前往医院前台领取物品
+{% else %}
+    <b>您的积分不足! 消费金额可以获取积分</b>
+{% endif %}
+
+</center>
+{% endblock %}

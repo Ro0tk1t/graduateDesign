@@ -2,7 +2,7 @@
 from . import home
 from flask import abort, redirect, url_for, render_template, request, flash
 from app.extensions import current_user, login_required
-from app.models import User, Orders, Commodity, DiagnosisLog, DateDiag, HospitalizationLog
+from app.models import User, Orders, Commodity, DiagnosisLog, DateDiag, HospitalizationLog, ScoreOrder
 from .forms import InfoForm, DateDiagnosis, PwdForm
 from flask_admin.contrib.mongoengine.filters import ObjectId
 from collections import Counter
@@ -134,6 +134,11 @@ def order():
             drugs[y] = Commodity.objects(id=ObjectId(y)).first().name
     return render_template('home/order.html', orders=orders, bought=drugs)
 
+@home.route('/scoreorder')
+@login_required
+def score_order():
+    orders = ScoreOrder.objects(user_id=current_user.id)
+    return render_template('home/scoreorder.html', orders=orders)
 
 @home.route('/pwd', methods=['POST', 'GET'])
 def pwd():

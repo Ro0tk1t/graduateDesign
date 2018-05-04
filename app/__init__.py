@@ -9,6 +9,7 @@ from app.doctor import doctor as doctor_blueprint
 from app.extensions import Bcrypt, Bootstrap, login_manage, principal, current_user, login_user, logout_user, admin_permission, login_required
 from flask_principal import identity_changed, identity_loaded, UserNeed, RoleNeed, Identity, Permission
 from flask_admin import Admin, BaseView
+from flask_admin.contrib.mongoengine.filters import ObjectId
 from app.models import mongo, db, User, Orders, Commodity, Tag, Notice, Wallet, Security, ScoreGood, ScoreOrder, ShoppingCar,DiagnosisLog, DateDiag, HospitalizationLog
 from app.forms import LoginForm, SearchForm, RegistForm
 from app import config
@@ -53,8 +54,7 @@ def create_app(object_name=None):
     @login_manage.user_loader
     def load_user(userid):
         return User.objects(id=userid).first()
-    
-    
+
     @app.errorhandler(404)
     def page404(error):
         return render_template('404.html'), 404
@@ -70,7 +70,6 @@ def create_app(object_name=None):
         else:
             user = 'Guest'
         return render_template('index.html', user=user)
-    
     
     @app.route('/login', methods=['POST', 'GET'])
     def login():
@@ -99,14 +98,12 @@ def create_app(object_name=None):
             return redirect('/home')
         else:
             return render_template('login.html', form=form)
-    
-    
+
     @app.route('/logout')
     def logout():
         logout_user()
         return redirect('login')
-    
-    
+
     @app.route('/regist', methods=['POST', 'GET'])
     def regist():
         form = RegistForm()
@@ -135,8 +132,7 @@ def create_app(object_name=None):
             flash('注册成功 !')
             return redirect('/')
         return render_template('regist.html')
-    
-    
+
     @app.route('/search', methods=['POST', 'GET'])
     @login_required
     def search():
@@ -145,23 +141,43 @@ def create_app(object_name=None):
             keyword = form.keyword.data
             drugs = Commodity.objects(tags__contains=keyword)
             if drugs:
-                return render_template('chufang.html', durgs=drugs)
+                return render_template('chufang.html', drugs=drugs)
             else:
                 flash('No drug found !')
                 return render_template('chufang.html')
         return render_template('index.html')
-    
-    
+
     @app.route('/notice')
     def notice():
         notes = Notice.objects.all()
         return render_template('notice.html', notes=notes)
-    
-    
+
     @app.route('/scoreshop')
     def scoreshop():
-        return render_template('scoreshop.html')
-    
+        goods = ScoreGood.objects.all()
+        return render_template('scoreshop.html', goods=goods)
+
+    @app.route('/exchange/<good_id>')
+    @login_required
+    def exchange(good_id):
+        good = ScoreGood.objects().first()
+        need_score = good.score
+        wallet = current_user.wallet_id
+        have_score = wallet.score
+        if have_score >= need_score:
+            score_order = ScoreOrder(
+                exchange=good,
+                user_id=User.objects(id=current_user.id).first(),
+                wallet_id=wallet.id,
+                useScore=need_score
+            )
+            # TODO: 事务回滚
+            score_order.save() and wallet.update(score=have_score-need_score)
+            status = 1
+        else:
+            status = 0
+        return render_template('exchange.html', status=status)
+
     @app.route('/test')
     @admin_permission.require(http_exception=403)
     def test():

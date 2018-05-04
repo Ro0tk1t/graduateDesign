@@ -1,2 +1,38 @@
 {%- extends 'navbar.html' %}
+{% block title %} 积分兑换 {% endblock %}
+{% block page_content %}
 
+<center>
+    {% for msg in get_flashed_messages() %}
+    <br><br><br><br>
+    <b style="font-size:40px">{{ msg }}</b>
+    {% endfor %}
+</center>
+
+{% for good in goods %}
+<div class="col-md-3">
+    <div class="movielist text-center">
+        <!--<img data-original="holder.js/262x166"
+                 class="img-responsive lazy center-block" alt="">-->
+        <img class="img-responsive center-block" alt=""
+             src="{{ url_for('static', filename='pic/score_good/'+good.pic_name) }}" style="height:190px;width:190px;">
+        <div class="text-left" style="margin-left:auto;margin-right:auto;width:210px;">
+            <span style="color:#999;font-style: italic;">{{ good.name }} </span>&nbsp&nbsp&nbsp
+            <b>积分: {{ good.score }}</b>
+            <br><b>价值人民币: {{ good.equalRMB }}</b>
+            <br><b>上架日期: {{ good.onlineDate.__str__()[:10] }}</b>
+            <div>
+                <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
+                <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
+                <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
+                <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
+                <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
+            </div>
+        </div>
+        <a href="{{ url_for('exchange', good_id=good.id) }}" class="btn btn-primary" target="_blank" role="button"><span
+                class="glyphicon glyphicon-shopping-cart"></span> 兑换</a>
+    </div><br>
+</div>
+{% endfor %}
+<br><br><br><br><br><br>
+{% endblock %}

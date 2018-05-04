@@ -18,7 +18,7 @@ def make_shell_content():
 @manager.shell
 def server():
     #app.debug = True
-    create_app().run()
+    create_app().run('0.0.0.0')
 
 
 manager.add_command('shell', Shell(make_context=make_shell_content))

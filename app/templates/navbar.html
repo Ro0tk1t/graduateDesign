@@ -39,7 +39,7 @@
                         <li><a href="#">One more separated link</a></li>
                     </ul>
                 </li>
-                <li><a href="#">积分商城</a></li>
+                <li><a href="/scoreshop">积分商城</a></li>
             </ul>
             <form class="navbar-form navbar-left" method="POST" action="{{ url_for('search') }}">
                 <div class="input-group">
@@ -90,7 +90,11 @@
 {%- block content %}
 
 {%- block page_content %}
+{% for msg in get_flashed_messages() %}
+<center><b>{{ msg }}</b></center>
+{% endfor %}
 {%- endblock page_content %}
+
 <center class="footer">
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="container">

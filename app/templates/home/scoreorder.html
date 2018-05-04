@@ -1,0 +1,45 @@
+{%- extends 'home/user.html' %}
+{%- block title %} 积分 {% endblock %}
+
+{%- block content %}
+
+<section class="content-header">
+    <h1>个人信息管理</h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 积分</a></li>
+        <li class="active"> 积分使用记录</li>
+    </ol>
+</section>
+<section class="content" id="showcontent">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">订单列表</h3>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <th class="td_bd"> 订单号</th>
+                            <th> 创建日期</th>
+                            <th> 兑换物品</th>
+                            <th> 使用积分</th>
+                        </tr>
+                        {% for order in orders %}
+                        <tr>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.createDate.__str__()[:16] }}</td>
+                            <td>{{ order.exchange.name }}</td>
+                            <td>{{ order.useScore }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
