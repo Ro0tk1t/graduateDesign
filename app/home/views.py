@@ -140,7 +140,14 @@ def score_order():
     orders = ScoreOrder.objects(user_id=current_user.id)
     return render_template('home/scoreorder.html', orders=orders)
 
+@home.route('/havescore')
+@login_required
+def have_score():
+    score = current_user.wallet_id.score
+    return render_template('home/havescore.html', score=score)
+
 @home.route('/pwd', methods=['POST', 'GET'])
+@login_required
 def pwd():
     form = PwdForm()
     if request.method == 'POST':
