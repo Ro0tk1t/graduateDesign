@@ -3,7 +3,12 @@
 {% block title %} ChuFang drug {% endblock %}
 {% block page_content %}
 
-
+<center>
+    {% for msg in get_flashed_messages() %}
+    <br><br><br><br>
+    <b style="font-size:40px">{{ msg }}</b>
+    {% endfor %}
+</center>
 {% for drug in drugs %}
 <div class="col-md-3">
     <div class="movielist text-center">

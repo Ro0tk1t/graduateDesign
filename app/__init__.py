@@ -143,9 +143,13 @@ def create_app(object_name=None):
         form = SearchForm()
         if request.method == 'POST':
             keyword = form.keyword.data
-            drugs = Commodity.objects(tag__contains=keyword)
-            print(drugs)
-            return '<h1>Search for {}</h1>'.format(drugs)
+            drugs = Commodity.objects(tags__contains=keyword)
+            if drugs:
+                return render_template('chufang.html', durgs=drugs)
+            else:
+                flash('No drug found !')
+                return render_template('chufang.html')
+        return render_template('index.html')
     
     
     @app.route('/notice')
