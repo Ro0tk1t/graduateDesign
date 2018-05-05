@@ -28,9 +28,9 @@
                                 <th>单价</th>
                                 <th>数量</th>
                             </tr>
-                            {% for good in goods %}
+                            {% for good, amount in goods.items() %}
                             <tr>
-                                <td>
+                                <td id="{{ good.id }}">
                                     <input type="checkbox" class="custom-control-input"
                                            name="box" id="customCheck1" checked>
                                 </td>
@@ -38,7 +38,7 @@
                                     <a href="{{ url_for('drug.drug_info', id=good.id) }}">{{ good.name }}</a>
                                 </td>
                                 <td>{{ good.price }}</td>
-                                <td>1</td>
+                                <td>{{ amount }}</td>
                             </tr>
                             {% endfor %}
                             </tbody>
@@ -47,9 +47,9 @@
                 </div>
             </div>
         </div>
-        <h3>总价: <b id="sum">{{ goods|sum(attribute='price') }}</b></h3>
+        <h3>总价: <b id="sum">{{ goods | compute_price() }}</b></h3>
         {% set objs = goods|map(attribute='id')|join(',') %}
-        <a href="{{ url_for('home.pay', goods=objs) }}" class="btn btn-primary" target="_blank" role="button">
+        <a href="#" class="btn btn-primary" target="_blank" role="button" id="buy">
             <span class="glyphicon glyphicon-ok"></span> 一键购买</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <a href="#{#{ url_for('home.delete') }#}" class="btn btn-danger" role="button">
             <span class="glyphicon glyphicon-trash"></span> 删除选中药品</a>
@@ -59,4 +59,5 @@
 
 {% block js %}
     <script src="{{ url_for('static', filename='js/home/select_all.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/home/buy_select.js') }}"></script>
 {% endblock %}

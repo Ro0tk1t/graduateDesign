@@ -4,8 +4,9 @@ from flask import abort, redirect, url_for, render_template, request, flash
 from app.extensions import current_user, login_required
 from app.models import User, Orders, Commodity, DiagnosisLog, DateDiag, HospitalizationLog, ScoreOrder
 from .forms import InfoForm, DateDiagnosis, PwdForm
-from flask_admin.contrib.mongoengine.filters import ObjectId
+from bson import ObjectId
 from collections import Counter
+from ast import literal_eval
 from functools import reduce
 
 
@@ -77,7 +78,12 @@ def add(commodity):
     selected = Commodity.objects(id=commodity_objid).first()
     print(commodity_objid)
     user = User.objects(id=ObjectId(current_user.id)).first()
-    user.shoppingcar.update(push__detail={str(selected.id): 1})
+    in_cars = user.shoppingcar.detail
+    if commodity in in_cars:
+        in_cars[commodity] += 1
+    else:
+        in_cars[commodity] = 1
+    user.shoppingcar.update(detail=in_cars)
     return render_template('home/pay.html')
 
 @home.route('/pay/null')
@@ -92,17 +98,19 @@ def pay(goods):
     print(detail)
     user = User.objects(id=current_user.id).first()
     wallet = current_user.wallet_id
-    if wallet.surplus < need_pay:
+    have_surplus = wallet.surplus
+    if have_surplus < need_pay:
         return render_template('home/pay.html', status=0)
     else:
         get_score = int(need_pay/10)
         have_score = wallet.score
-        have_surplus = wallet.surplus
         order = Orders(user_id=user,
                        buyDetail=detail,
                        paySum=need_pay,
                        getScore=get_score,
                        wallet_id=wallet)
+        #after_buy =
+        current_user.shoppingcar.update(detail={})
         order.save()
         wallet.update(score=get_score+have_score,
                       surplus=have_surplus-need_pay)
@@ -110,7 +118,6 @@ def pay(goods):
     '''
     检查是否已经支付
     '''
-    current_user.shoppingcar.update(detail={})
     return render_template('home/pay.html')
 
 
@@ -118,11 +125,11 @@ def pay(goods):
 @login_required
 def shopping_car():
     goods = current_user.shoppingcar.detail
-    ids = []
-    for x in goods:
-        # 字符串id转化为药品对象并追加到药品列表
-        ids.append(Commodity.objects(id=ObjectId(list(x.keys())[0])).first())
-    return render_template('home/car.html', goods=ids)
+    new_goods = {}
+    for k,v in goods.items():
+        # 字符串id转化为药品对象并追加到药品字典  /*列表*/
+        new_goods[Commodity.objects(id=ObjectId(k)).first()] = v
+    return render_template('home/car.html', goods=new_goods)
 
 
 @home.route('/delete/<commodities>')

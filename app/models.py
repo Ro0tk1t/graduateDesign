@@ -81,7 +81,7 @@ class Wallet(mongo.Document):
 
 class ShoppingCar(mongo.Document):
     ''' 购物车 '''
-    detail = mongo.ListField(mongo.DictField())
+    detail = mongo.DictField()
 
 
 class Orders(mongo.Document):

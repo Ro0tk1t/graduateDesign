@@ -4,7 +4,8 @@ $(function(){
         var all = 0.0;
         $(".custom-control-input").each(function(){
             this.checked=status;
-            all += parseFloat($(this).parent().next().next().text());
+            var price_element = $(this).parent().next().next();
+            all += parseFloat(price_element.text()) * parseFloat(price_element.next().text());
         });
 
         var amount_element = $("#sum");
@@ -18,14 +19,13 @@ $(function(){
 
     $(".custom-control-input").click(function(){
         var amount_element = $("#sum");
-        var this_element = $(this);
+        var price_element = $(this).parent().next().next();
         const amount = parseFloat(amount_element.text());
+        var price = parseFloat(price_element.text()) * parseFloat(price_element.next().text());
         if(this.checked){
-            var price = parseFloat(this_element.parent().next().next().text());
-            amount_element.text(price + amount);
+            amount_element.text(amount + price);
         }
         else{
-            var price = parseFloat(this_element.parent().next().next().text());
             amount_element.text(amount - price);
             }
     });
