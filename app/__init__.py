@@ -160,7 +160,7 @@ def create_app(object_name=None):
     @app.route('/exchange/<good_id>')
     @login_required
     def exchange(good_id):
-        good = ScoreGood.objects().first()
+        good = ScoreGood.objects(id=good_id).first()
         need_score = good.score
         wallet = current_user.wallet_id
         have_score = wallet.score

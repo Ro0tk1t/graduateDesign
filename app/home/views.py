@@ -92,12 +92,20 @@ def pay(goods):
     print(detail)
     user = User.objects(id=current_user.id).first()
     wallet = current_user.wallet_id
-    print(drugs)
-    order = Orders(user_id=user,
-                   buyDetail=detail,
-                   paySum=need_pay,
-                   wallet_id=wallet)
-    order.save()
+    if wallet.surplus < need_pay:
+        return render_template('home/pay.html', status=0)
+    else:
+        get_score = int(need_pay/10)
+        have_score = wallet.score
+        have_surplus = wallet.surplus
+        order = Orders(user_id=user,
+                       buyDetail=detail,
+                       paySum=need_pay,
+                       getScore=get_score,
+                       wallet_id=wallet)
+        order.save()
+        wallet.update(score=get_score+have_score,
+                      surplus=have_surplus-need_pay)
     '''
     检查是否已经支付
     '''
