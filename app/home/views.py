@@ -7,7 +7,7 @@ from .forms import InfoForm, DateDiagnosis, PwdForm
 from bson import ObjectId
 from collections import Counter
 from ast import literal_eval
-from functools import reduce
+from urllib import parse
 
 
 @home.route("/")
@@ -74,9 +74,6 @@ def money():
 @login_required
 def add(commodity):
     ''' 添加到购物车 '''
-    commodity_objid = ObjectId(commodity)
-    selected = Commodity.objects(id=commodity_objid).first()
-    print(commodity_objid)
     user = User.objects(id=ObjectId(current_user.id)).first()
     in_cars = user.shoppingcar.detail
     if commodity in in_cars:
@@ -91,11 +88,16 @@ def add(commodity):
 @login_required
 def pay(goods):
     ''' jinja2只能返回str,无法返回对象或列表等数据结构 '''
-    drug = goods.split(',')
-    drugs = [Commodity.objects(id=ObjectId(x.strip())).first() for x in drug]
-    need_pay = sum([x.price for x in drugs])
-    detail = Counter(drug)
-    print(detail)
+    #try:
+    _ = parse.unquote(goods)
+    drug = literal_eval(_)
+    print(drug)
+    #except:
+    #    return render_template('home/pay.html', status=0)
+    need_pay = 0.0
+    for k,v in drug.items():
+        commodity = Commodity.objects(id=ObjectId(k)).first()
+        need_pay += commodity.price * v
     user = User.objects(id=current_user.id).first()
     wallet = current_user.wallet_id
     have_surplus = wallet.surplus
@@ -105,7 +107,7 @@ def pay(goods):
         get_score = int(need_pay/10)
         have_score = wallet.score
         order = Orders(user_id=user,
-                       buyDetail=detail,
+                       buyDetail=drug,
                        paySum=need_pay,
                        getScore=get_score,
                        wallet_id=wallet)

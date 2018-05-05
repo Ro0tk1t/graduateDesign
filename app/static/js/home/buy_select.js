@@ -1,9 +1,9 @@
 $("#buy").click(function(){
-    var ids = [];
+    var ids = {};
     $(".custom-control-input").each(function(){
         if(this.checked)
-        ids.push($(this).parent().attr("id"));
+            ids[$(this).parent().attr("id")] = parseInt($(this).parent().next().next().next().text());
         });
-    var url = '/home/pay/' + ids.toString();
+    var url = '/home/pay/' + JSON.stringify(ids);
     $.get(url);
 });
