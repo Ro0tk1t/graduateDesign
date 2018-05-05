@@ -21,7 +21,9 @@
                         <table class="table table-hover">
                             <tbody>
                             <tr>
-                                <th>选中</th>
+                                <th>
+                                    <input type="checkbox" id="select_all">  全选/反选
+                                </th>
                                 <th>药品</th>
                                 <th>单价</th>
                                 <th>数量</th>
@@ -29,7 +31,8 @@
                             {% for good in goods %}
                             <tr>
                                 <td>
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                    <input type="checkbox" class="custom-control-input"
+                                           name="box" id="customCheck1" checked>
                                 </td>
                                 <td class="td_bd">
                                     <a href="{{ url_for('drug.drug_info', id=good.id) }}">{{ good.name }}</a>
@@ -44,7 +47,7 @@
                 </div>
             </div>
         </div>
-        <h3>总价: {{ goods|sum(attribute='price') }}</h3>
+        <h3>总价: <b id="sum">{{ goods|sum(attribute='price') }}</b></h3>
         {% set objs = goods|map(attribute='id')|join(',') %}
         <a href="{{ url_for('home.pay', goods=objs) }}" class="btn btn-primary" target="_blank" role="button">
             <span class="glyphicon glyphicon-ok"></span> 一键购买</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -52,4 +55,8 @@
             <span class="glyphicon glyphicon-trash"></span> 删除选中药品</a>
     </form>
 </section>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ url_for('static', filename='js/home/select_all.js') }}"></script>
 {% endblock %}

@@ -106,6 +106,7 @@ def pay(goods):
         order.save()
         wallet.update(score=get_score+have_score,
                       surplus=have_surplus-need_pay)
+        # TODO: 事务回滚
     '''
     检查是否已经支付
     '''
