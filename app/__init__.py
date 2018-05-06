@@ -184,6 +184,14 @@ def create_app(object_name=None):
         permission = Permission()
         return 'test admin permission'
 
+    @app.template_filter('compute_price')
+    def compute_price(drug_dict):
+        ''' 自定义的jinjia2过滤器,用于计算购物车商品总价 '''
+        price = 0.0
+        for k,v in drug_dict.items():
+            price += k.price * v
+        return price
+
     return app
 
 #if __name__ == '__main__':

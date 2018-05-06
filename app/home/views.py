@@ -88,12 +88,12 @@ def add(commodity):
 @login_required
 def pay(goods):
     ''' jinja2只能返回str,无法返回对象或列表等数据结构 '''
-    #try:
-    _ = parse.unquote(goods)
-    drug = literal_eval(_)
-    print(drug)
-    #except:
-    #    return render_template('home/pay.html', status=0)
+    try:
+        _ = parse.unquote(goods)
+        drug = literal_eval(_)
+        print(drug)
+    except:
+        return render_template('home/pay.html', status=0)
     need_pay = 0.0
     for k,v in drug.items():
         commodity = Commodity.objects(id=ObjectId(k)).first()
@@ -111,8 +111,16 @@ def pay(goods):
                        paySum=need_pay,
                        getScore=get_score,
                        wallet_id=wallet)
-        #after_buy =
-        current_user.shoppingcar.update(detail={})
+        before_buy = current_user.shoppingcar.detail
+        after_buy = {}
+        for k,v in before_buy.items():
+            if k in drug:
+                amount = v - drug[k]
+                if amount > 0:
+                    after_buy[k] = amount
+            else:
+                after_buy[k] = v
+        current_user.shoppingcar.update(detail=after_buy)
         order.save()
         wallet.update(score=get_score+have_score,
                       surplus=have_surplus-need_pay)
