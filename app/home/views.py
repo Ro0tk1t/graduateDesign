@@ -91,7 +91,8 @@ def pay(goods):
     try:
         _ = parse.unquote(goods)
         drug = literal_eval(_)
-        print(drug)
+        if not drug:
+            return render_template('home/pay.html', status=0)
     except:
         return render_template('home/pay.html', status=0)
     need_pay = 0.0
@@ -128,7 +129,7 @@ def pay(goods):
     '''
     检查是否已经支付
     '''
-    return render_template('home/pay.html')
+    return render_template('home/pay.html', status=1)
 
 
 @home.route('/shopping_car')
@@ -145,8 +146,21 @@ def shopping_car():
 @home.route('/delete/<commodities>')
 @login_required
 def delete(commodities):
-    pass
-
+    try:
+        _ = parse.unquote(commodities)
+        drugs = literal_eval(_)
+    except:
+        return render_template('home/car.html', goods={})
+    car = current_user.shoppingcar
+    before_del = car.detail
+    for k,v in drugs.items():
+        if k in before_del:
+            if v > 0 and v < before_del[k]:
+                before_del[k] -= v
+            elif v == before_del[k]:
+                del(before_del[k])
+    car.update(detail=before_del)
+    return render_template('home/car.html', goods={})
 
 @home.route('/order')
 @login_required
