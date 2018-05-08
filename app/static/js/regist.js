@@ -124,7 +124,7 @@ var regPasswordSpecial = /[~!@#%&=;':",./<>_\}\]\-\$\(\)\*\+\.\[\?\\\^\{\|]/;
 var regPasswordAlpha = /[a-zA-Z]/;
 var regPasswordNum = /[0-9]/;
 var password;
-var check = [false, false, false, false, false, false];
+var check = [false, false, false, false, false, false, false, false, false, ];
 
 //校验成功函数
 function success(Obj, counter) {
@@ -147,7 +147,6 @@ function fail(Obj, counter, msg) {
 // 用户名匹配
 $('.container').find('input').eq(0).change(function() {
 
-
     if (regUsername.test($(this).val())) {
         success($(this), 0);
     } else if ($(this).val().length < 2) {
@@ -159,26 +158,21 @@ $('.container').find('input').eq(0).change(function() {
 });
 
 
-
 // 密码匹配
-
 // 匹配字母、数字、特殊字符至少两种的函数
 function atLeastTwo(password) {
     var a = regPasswordSpecial.test(password) ? 1 : 0;
     var b = regPasswordAlpha.test(password) ? 1 : 0;
     var c = regPasswordNum.test(password) ? 1 : 0;
     return a + b + c;
-
 }
 
 $('.container').find('input').eq(1).change(function() {
 
     password = $(this).val();
-
     if ($(this).val().length < 8) {
         fail($(this), 1, '密码太短，不能少于8个字符');
     } else {
-
 
         if (atLeastTwo($(this).val()) < 2) {
             fail($(this), 1, '密码中至少包含字母、数字、特殊字符的两种')
@@ -203,18 +197,18 @@ $('.container').find('input').eq(2).change(function() {
 
 
 // mail
-var regEmail = /^[0-9a-Z]+@[0-9a-Z.]+$/
+var regEmail = /^[0-9A-z]+@[0-9A-z.]+$/;
 $('.container').find('input').eq(3).change(function() {
     if (regEmail.test($(this).val())) {
         success($(this), 3);
     } else {
-        fail($(this), 3, '手机号码只能为11位数字');
+        fail($(this), 3, '邮箱格式不正确');
     }
 });
 
 
 // IDcard
-var regIDcard = /^[0-9]{11,20}$/
+var regIDcard = /^[0-9]{11,20}$/;
 $('.container').find('input').eq(4).change(function() {
     if (regIDcard.test($(this).val())) {
         success($(this), 4);
@@ -225,7 +219,7 @@ $('.container').find('input').eq(4).change(function() {
 
 
 // 手机号码
-var regBank = /^[0-9]{11,30}$/
+var regBank = /^[0-9]{11,30}$/;
 $('.container').find('input').eq(5).change(function() {
     if (regBank.test($(this).val())) {
         success($(this), 5);
@@ -249,7 +243,7 @@ $('.container').find('input').eq(7).change(function() {
 });
 
 // 手机号码
-var regPhoneNum = /^[0-9]{11}$/
+var regPhoneNum = /^[0-9]{11}$/;
 $('.container').find('input').eq(8).change(function() {
     if (regPhoneNum.test($(this).val())) {
         success($(this), 8);
@@ -294,7 +288,6 @@ $('#loadingButton').click(function() {
                 clearTimeout(secondTimer);
                 $('#loadingButton').text('重新获取校验码');
                 $('#loadingButton').removeClass('disabled').addClass('btn-primary');
-
             }
         }
 
@@ -323,5 +316,5 @@ $('#reset').click(function() {
     $('.tips').hide();
     $('.glyphicon-ok').hide();
     $('.glyphicon-remove').hide();
-    check = [false, false, false, false, false, false, ];
+    check = [false, false, false, false, false, false, false, false, false, ];
 });
