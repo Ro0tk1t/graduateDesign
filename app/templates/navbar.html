@@ -30,13 +30,10 @@
                         药品 <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
+                        <li role="separator" class="divider"></li>
                         <li><a href="/drug">处方药</a></li>
-                        <li><a href="#">非处方药</a></li>
-                        <li><a href="#">Something else here</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
+                        <li><a href="{{ url_for('baoxian') }}">保险</a></li>
                     </ul>
                 </li>
                 <li><a href="/scoreshop">积分商城</a></li>

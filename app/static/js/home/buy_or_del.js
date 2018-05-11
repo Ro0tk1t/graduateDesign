@@ -7,9 +7,11 @@ $("a[name='buy_or_del']").click(function(){
     if($(this).attr("id") == "buy"){
         const url = '/home/pay/' + JSON.stringify(selected);
         $.get(url);
+        window.location.reload();
     }
     else if($(this).attr("id") == "del"){
         const url = '/home/delete/' + JSON.stringify(selected);
         $.get(url);
+        window.location.reload();
     }
 });

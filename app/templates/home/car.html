@@ -49,9 +49,9 @@
         </div>
         <h3>总价: <b id="sum">{{ goods | compute_price() }}</b></h3>
         {% set objs = goods|map(attribute='id')|join(',') %}
-        <a href="#" class="btn btn-primary" target="_blank" role="button" id="buy" name="buy_or_del">
+        <a href="#" class="btn btn-primary" role="button" id="buy" name="buy_or_del">
             <span class="glyphicon glyphicon-ok"></span> 一键购买</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-        <a href="#" class="btn btn-danger" role="button" target="_blank" id="del" name="buy_or_del">
+        <a href="#" class="btn btn-danger" role="button" id="del" name="buy_or_del">
             <span class="glyphicon glyphicon-trash"></span> 删除选中药品</a>
     </form>
 </section>

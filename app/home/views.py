@@ -2,7 +2,7 @@
 from . import home
 from flask import abort, redirect, url_for, render_template, request, flash
 from app.extensions import current_user, login_required
-from app.models import User, Orders, Commodity, DiagnosisLog, DateDiag, HospitalizationLog, ScoreOrder
+from app.models import User, Orders, Commodity, DiagnosisLog, DateDiag, HospitalizationLog, ScoreOrder, Baoxian, Baoxian_order
 from .forms import InfoForm, DateDiagnosis, PwdForm
 from bson import ObjectId
 from collections import Counter
@@ -83,6 +83,7 @@ def add(commodity):
     user.shoppingcar.update(detail=in_cars)
     return render_template('home/pay.html')
 
+
 @home.route('/pay/null')
 @home.route('/pay/<goods>', methods=['POST', 'GET'])
 @login_required
@@ -162,6 +163,7 @@ def delete(commodities):
     car.update(detail=before_del)
     return render_template('home/car.html', goods={})
 
+
 @home.route('/order')
 @login_required
 def order():
@@ -174,11 +176,13 @@ def order():
             drugs[y] = Commodity.objects(id=ObjectId(y)).first().name
     return render_template('home/order.html', orders=orders, bought=drugs)
 
+
 @home.route('/scoreorder')
 @login_required
 def score_order():
     orders = ScoreOrder.objects(user_id=current_user.id)
     return render_template('home/scoreorder.html', orders=orders)
+
 
 @home.route('/havescore')
 @login_required
@@ -270,3 +274,45 @@ def one_diag(log_id):
 def hospitalization_log():
     logs = HospitalizationLog.objects(user_id=ObjectId(current_user.id))
     return render_template('home/hospitalization_log.html', logs=logs)
+
+
+@home.route('/buy_baoxian/<id>')
+def buy_baoxian(id):
+    baoxian_obj = Baoxian.objects(id=ObjectId(id)).first()
+    wallet = current_user.wallet_id
+    price = baoxian_obj.price
+    surplus = wallet.surplus
+    tongchou = wallet.tongchoujijin
+    have_score = wallet.score
+    score = int(price/10)
+
+    order = Baoxian_order(user_id=ObjectId(current_user.id),
+                          wallet_id=wallet,
+                          baoxian_id=baoxian_obj,
+                          get_score=score,
+                          money=price)
+    if tongchou >= 0:
+        if price <= tongchou:
+            order.tongchoujijin = price
+            wallet.update(tongchoujijin=tongchou - price,
+                          score=have_score+score)
+            order.tongchoujijin = price
+            order.save()
+            flash('购买成功 !')
+            return render_template('home/user.html')
+        other_pay = price - tongchou
+        if other_pay <= surplus:
+            wallet.update(tongchoujijin=0,
+                          score=have_score + score,
+                          surplus=surplus-other_pay)
+            order.tongchoujijin = tongchou
+            order.save()
+            flash('购买成功 !')
+    else:
+        flash('余额不足......')
+    return render_template('home/user.html')
+
+@home.route('/list_baoxian_orders')
+def list_baoxian_orders():
+    baoxian_orders = Baoxian_order.objects(wallet_id=current_user.wallet_id)
+    return render_template('baoxian/baoxian_orders.html', baoxian_orders=baoxian_orders)

@@ -10,11 +10,15 @@ from app.extensions import Bcrypt, Bootstrap, login_manage, principal, current_u
 from flask_principal import identity_changed, identity_loaded, UserNeed, RoleNeed, Identity, Permission
 from flask_admin import Admin, BaseView
 from flask_admin.contrib.mongoengine.filters import ObjectId
-from app.models import mongo, db, User, Orders, Commodity, Tag, Notice, Wallet, Security, ScoreGood, ScoreOrder, ShoppingCar,DiagnosisLog, DateDiag, HospitalizationLog
+from app.models import mongo, db, User, Orders, Commodity, Tag,\
+    Notice, Wallet, Security, ScoreGood, ScoreOrder, ShoppingCar,\
+    DiagnosisLog, DateDiag, HospitalizationLog, Baoxian, Baoxian_order
 from app.forms import LoginForm, SearchForm, RegistForm
 from app import config
 from .admin import views as admin_views
 from datetime import timedelta,datetime
+from os import path
+from app.utils.pay import Alipay
 
 
 def create_app(object_name=None):
@@ -31,7 +35,9 @@ def create_app(object_name=None):
 
 
     admin = Admin(app, name='后台')
-    model_list = [User, Orders, Commodity, Tag, Notice, Wallet, Security, ScoreGood, ScoreOrder, ShoppingCar, DiagnosisLog, DateDiag, HospitalizationLog]
+    model_list = [User, Orders, Commodity, Tag, Notice, Wallet, Security,
+                  ScoreGood, ScoreOrder, ShoppingCar, DiagnosisLog,
+                  DateDiag, HospitalizationLog, Baoxian, Baoxian_order]
     for x in model_list:
         admin.add_view(admin_views.CRUD(x, db.session, category=x.__name__))
     
@@ -191,6 +197,32 @@ def create_app(object_name=None):
         for k,v in drug_dict.items():
             price += k.price * v
         return price
+
+    @app.route('/baoxian')
+    def baoxian():
+        baoxian_list = Baoxian.objects().all()
+        return render_template('baoxian/baoxian.html', baoxian_list=baoxian_list)
+
+    @app.route('/baoxian_introduce/<id>')
+    def baoxian_introduce(id):
+        baoxian_obj = Baoxian.objects(id=ObjectId(id)).first()
+        return render_template('baoxian/baoxian_introduce.html', baoxian=baoxian_obj)
+
+    @app.route('/')
+    def ali_pay():
+        app_id = "2016091500513426"
+        notify_url = 'http://localhost:5000/'
+        return_url = 'http://localhost:5000/'
+        priv_key_path = path.join(path.dirname(path.abspath(__file__)), 'zfb_priv_key.pem')
+        pub_key_path = path.join(path.dirname(path.abspath(__file__)), 'zfb_pub_key.pem')
+        alipay = Alipay(app_id=app_id,
+                        app_notify_url=notify_url,
+                        return_url=return_url,
+                        app_private_key_path=priv_key_path,
+                        alipay_public_key_path=pub_key_path,
+                        debug=True)
+        return alipay
+
 
     return app
 

@@ -75,6 +75,8 @@ class Wallet(mongo.Document):
     tongchoujijin = mongo.FloatField(default=0.0)
     orders = mongo.ListField(mongo.ReferenceField('Orders'))
 
+    baoxian_list = mongo.ListField(mongo.ReferenceField('Baoxian'))
+
     def __repr__(self):
         return '<Wallet %r>' % self.id
 
@@ -195,6 +197,23 @@ class HospitalizationLog(mongo.Document):
     status = mongo.BooleanField(default=True)
     end_date = mongo.DateTimeField()
     place = mongo.StringField(required=True)
+
+class Baoxian(mongo.Document):
+    ''' 保险 '''
+    name = mongo.StringField()
+    price = mongo.IntField()
+    introduce = mongo.StringField()
+    pic_name = mongo.StringField()
+
+class Baoxian_order(mongo.Document):
+    ''' 保险订单 '''
+    create_date = mongo.DateTimeField(default=datetime.now)
+    baoxian_id = mongo.ReferenceField('Baoxian')
+    user_id = mongo.ReferenceField('User')
+    wallet_id = mongo.ReferenceField('Wallet')
+    tongchoujijin = mongo.IntField(default=0)
+    money = mongo.IntField()
+    get_score = mongo.IntField()
 
 # class News(db.Model):
 #    auth = db.relationship("User", backref='news')

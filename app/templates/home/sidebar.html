@@ -37,7 +37,7 @@
         <a href="#">
             <i class="fa fa-file-text" aria-hidden="true"></i>
             <span>个人钱包</span>
-            <span class="label label-primary pull-right">3</span>
+            <span class="label label-primary pull-right">4</span>
         </a>
         <ul class="treeview-menu">
             <li>
@@ -48,6 +48,11 @@
             <li>
                 <a href="{{ url_for('home.order') }}">
                     <i class="fa fa-circle-o"></i> 花销记录
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('home.list_baoxian_orders') }}">
+                    <i class="fa fa-circle-o"></i> 保险购买记录
                 </a>
             </li>
             <li>
