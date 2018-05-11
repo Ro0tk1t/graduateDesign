@@ -161,7 +161,6 @@ def delete(commodities):
             elif v == before_del[k]:
                 del(before_del[k])
     car.update(detail=before_del)
-    return render_template('home/car.html', goods={})
 
 
 @home.route('/order')

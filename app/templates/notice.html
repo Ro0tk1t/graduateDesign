@@ -12,6 +12,7 @@
             <a href="#" class="list-group-item active">
                 <h4 class="list-group-item-heading">公告: {{ x.title }}</h4>
                 <p class="list-group-item-text">{{ x.text }}</p>
+                <span style="color:#999;font-style: italic;">发布日期: {{ x.addDate.__str__()[:16] }} </span>
             </a>
         </div>
         {% endfor %}
