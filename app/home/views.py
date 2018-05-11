@@ -81,7 +81,6 @@ def add(commodity):
     else:
         in_cars[commodity] = 1
     user.shoppingcar.update(detail=in_cars)
-    return render_template('home/pay.html')
 
 
 @home.route('/pay/null')

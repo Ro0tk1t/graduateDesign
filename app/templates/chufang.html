@@ -10,7 +10,7 @@
 
 {% for drug in drugs %}
 <div class="col-md-3">
-    <div class="movielist text-center">
+    <div class="movielist text-center" id="{{ drug.id }}">
         <!--<img data-original="holder.js/262x166"
                  class="img-responsive lazy center-block" alt="">-->
         <a href="{{ url_for('drug.drug_info', id=drug.id) }}" style="display: inline-block;">
@@ -28,10 +28,38 @@
                 <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
             </div>
         </div>
-        <a href="{{ url_for('home.add', commodity=drug.id) }}" class="btn btn-primary" target="_blank" role="button"><span
+        <a href="#" class="btn btn-primary" id="add" role="button" data-toggle="modal" data-target="#myModal"><span
                 class="glyphicon glyphicon-shopping-cart"></span> 添加到购物车</a>
+
+                <!-- 模态框（Modal） -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h5 class="modal-title" id="myModalLabel">恭喜</h5>
+                    </div>
+                    <div class="modal-body"><h4>成功添加到购物车 !</h4></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
     </div><br>
 </div>
 {% endfor %}
 <br><br><br><br><br><br>
+<script>
+    $("#add").click(function(){
+        const url = '/home/add/' + $(this).parent().attr("id");
+        $.get(url);
+        alert('<div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <strong>Congradulation!</strong> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp成功添加到购物车.
+            </div>');
+    });
+</script>
 {% endblock %}
