@@ -28,7 +28,7 @@
                 <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
             </div>
         </div>
-        <a href="#" class="btn btn-primary" id="add" role="button" data-toggle="modal" data-target="#myModal"><span
+        <a href="#" class="btn btn-primary" name="add" role="button" data-toggle="modal" data-target="#myModal"><span
                 class="glyphicon glyphicon-shopping-cart"></span> 添加到购物车</a>
 
                 <!-- 模态框（Modal） -->
@@ -51,15 +51,10 @@
 </div>
 {% endfor %}
 <br><br><br><br><br><br>
+<script src="{{ url_for('static', filename='home/plugins/jQuery/jQuery-2.2.0.min.js') }}"></script>
 <script>
-    $("#add").click(function(){
-        const url = '/home/add/' + $(this).parent().attr("id");
-        $.get(url);
-        alert('<div class="alert alert-success alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
-                <strong>Congradulation!</strong> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp成功添加到购物车.
-            </div>');
+    $("a[name='add']").click(function(){
+        $.get('/home/add/', data={'id':$(this).parent().attr("id")});
     });
 </script>
 {% endblock %}

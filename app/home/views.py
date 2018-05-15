@@ -1,6 +1,6 @@
 # coding:utf8
 from . import home
-from flask import abort, redirect, url_for, render_template, request, flash
+from flask import jsonify, redirect, url_for, render_template, request, flash
 from app.extensions import current_user, login_required
 from app.models import User, Orders, Commodity, DiagnosisLog, DateDiag, HospitalizationLog, ScoreOrder, Baoxian, Baoxian_order
 from .forms import InfoForm, DateDiagnosis, PwdForm
@@ -70,17 +70,19 @@ def money():
     return render_template('home/money.html', wallet=user_wallet)
 
 
-@home.route('/add/<commodity>', methods=['POST', 'GET'])
+@home.route('/add/', methods=['POST', 'GET'])
 @login_required
-def add(commodity):
+def add():
     ''' 添加到购物车 '''
     user = User.objects(id=ObjectId(current_user.id)).first()
     in_cars = user.shoppingcar.detail
+    commodity = request.args.get('id')
     if commodity in in_cars:
         in_cars[commodity] += 1
     else:
         in_cars[commodity] = 1
     user.shoppingcar.update(detail=in_cars)
+    return jsonify(reslut=1)
 
 
 @home.route('/pay/null')
@@ -160,6 +162,7 @@ def delete(commodities):
             elif v == before_del[k]:
                 del(before_del[k])
     car.update(detail=before_del)
+    return render_template('home/car.html', goods={})
 
 
 @home.route('/order')
