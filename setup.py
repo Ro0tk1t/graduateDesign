@@ -13,7 +13,7 @@ setup(
         description='GraduateDesign',
         packages=find_packages(),
         install_requires=[
-            'flask==1.0',
+            'flask==2.3.2',
             'Flask-Admin>=1.5.0',
             'Flask-Bcrypt>=0.7',
             'Flask-Bootstrap>=3.3',
